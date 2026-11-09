@@ -1,0 +1,30 @@
+name: Fetch news & deploy
+on:
+  schedule: [{cron: '*/15 * * * *'}]
+  push: {branches: [main]}
+  workflow_dispatch:
+permissions: {contents: write, pages: write, id-token: write}
+concurrency: {group: pages, cancel-in-progress: false}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: {name: github-pages, url: '${{ steps.deploy.outputs.page_url }}'}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore rolling archive from live site
+        run: mkdir -p data && (curl -sfL --max-time 20 "https://wajeehk.github.io/news-reel/data/archive.json?t=$(date +%s)" -o data/archive.json || rm -f data/archive.json)
+      - name: Fetch & build feed
+        run: python3 scripts/fetch_news.py
+      - name: Keep schedule alive (GitHub disables crons after 60 idle days)
+        run: |
+          last=$(git log -1 --format=%ct); now=$(date +%s)
+          if [ $(( now - last )) -gt 3888000 ]; then
+            date -u > .keepalive && git config user.name news-reel-bot && git config user.email actions@users.noreply.github.com
+            git add .keepalive && git commit -m "keepalive [skip ci]" && git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: .}
+      - id: deploy
+        uses: actions/deploy-pages@v4
