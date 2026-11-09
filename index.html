@@ -17,41 +17,47 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=3"><link rel="stylesheet" href="intros.css?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css?v=4"><link rel="stylesheet" href="intros.css?v=4">
 </head><body>
 <div id="boot"><div class="w"><img src="icon.svg" alt="" width="54" height="54" style="border-radius:14px">NEWS<span>REEL</span></div></div>
-<header class="top">
+<header class="top" id="top">
   <div class="brand"><img class="bi" src="icon.svg" alt=""><b>News</b><b class="r">Reel</b><span class="upd" id="upd"></span></div>
-  <div class="brk" id="brk" hidden><span class="bl">BREAKING</span><div class="bt"><div class="btrack" id="btrack"></div></div></div>
 </header>
 <main class="wrap" id="main">
   <section data-view="feed">
+    <div class="mast"><div class="date" id="date"></div><h1 class="lt">Top Stories</h1></div>
+    <button class="brk press" id="brk" hidden><span class="bl"><i></i>Breaking</span><span class="bt" id="btxt"></span><span class="chev">›</span></button>
     <div class="chips" id="chips"></div>
     <div id="feed"></div>
   </section>
   <section data-view="recap" hidden>
-    <div class="h1">Today's Big Stories</div><p class="sub" id="recapsub"></p>
-    <button class="play press" id="playall">▶ Play the recap</button>
+    <div class="mast"><div class="date" id="recapdate"></div><h1 class="lt">Today's Big Stories</h1></div>
+    <p class="sub" id="recapsub"></p>
+    <div class="rail" id="rail"></div>
+    <button class="play press" id="playall">Play all</button>
     <div id="recap"></div>
   </section>
-  <section data-view="saved" hidden><div class="h1">Saved</div><div id="saved"></div></section>
+  <section data-view="saved" hidden><div class="mast"><h1 class="lt">Saved</h1></div><div id="saved"></div></section>
   <section data-view="alerts" hidden>
-    <div class="h1">Alerts</div>
-    <p class="sub">Follow names or topics. Matching stories get a bell and jump up your feed.</p>
-    <form id="kwform" class="kwf"><input id="kwin" placeholder="e.g. Hegseth, Bitcoin, Arsenal" autocomplete="off"><button class="press">Add</button></form>
+    <div class="mast"><h1 class="lt">Alerts</h1></div>
+    <p class="sub">Follow people, companies or topics. Matching stories get a bell and move up your feed.</p>
+    <form id="kwform" class="kwf"><input id="kwin" placeholder="e.g. Hegseth, Bitcoin, Arsenal" autocomplete="off" enterkeyhint="done"><button class="press">Add</button></form>
     <div class="kws" id="kws"></div>
     <button class="notif press" id="notif">Enable notifications</button>
     <p class="fine" id="notifnote"></p>
-    <div class="lbl">Matching now</div><div id="matches"></div>
+    <div class="sh">Matching now</div><div id="matches"></div>
+    <div class="sh">About</div>
+    <p class="fine">News Reel reads public RSS feeds from BBC, Guardian, Sky News, NPR, Al Jazeera, CBS and Google News (incl. Reuters &amp; AP) every ~15 minutes. Story images belong to their publishers and link to the original articles. Logos from <a href="https://simpleicons.org" target="_blank" rel="noopener">Simple Icons</a> (CC0) or the brand's own site icon; flags from <a href="https://flagicons.lipis.dev" target="_blank" rel="noopener">flag-icons</a> (MIT). Portraits from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> via Wikipedia, used under their free licences: <button class="lnk" id="credbtn">view photo credits</button>. Prices: CoinGecko and Yahoo Finance.</p>
+    <div id="credits" class="fine" hidden></div>
   </section>
   <div class="foot" id="foot"></div>
 </main>
 <nav class="dock" id="dock" aria-label="Tabs"><span class="bubble" id="bubble"></span>
-  <button class="tb on" data-tab="feed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M10 9l5 3-5 3z"/></svg>For You</button>
-  <button class="tb" data-tab="recap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="18" cy="16" r="3"/></svg>Recap</button>
-  <button class="tb" data-tab="saved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Saved</button>
-  <button class="tb" data-tab="alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4"/></svg>Alerts</button>
+  <button class="tb on" data-tab="feed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="3.5"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5"/></svg>For You</button>
+  <button class="tb" data-tab="recap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" stroke-dasharray="3 2.2"/><path d="M10 8.8l5 3.2-5 3.2z" fill="currentColor"/></svg>Recap</button>
+  <button class="tb" data-tab="saved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-3.8-5.5 3.8z"/></svg>Saved</button>
+  <button class="tb" data-tab="alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 16V11a6 6 0 0112 0v5l1.6 1.8H4.4zM10 21h4"/></svg>Alerts</button>
 </nav>
-<script src="intros.js?v=3"></script><script src="app.js?v=3"></script>
+<script src="intros.js?v=4"></script><script src="app.js?v=4"></script>
 </body></html>

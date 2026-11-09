@@ -1,6 +1,6 @@
 name: Fetch news & deploy
 on:
-  schedule: [{cron: '*/15 * * * *'}]
+  schedule: [{cron: '4,19,34,49 * * * *'}]
   push: {branches: [main]}
   workflow_dispatch:
 permissions: {contents: write, pages: write, id-token: write}

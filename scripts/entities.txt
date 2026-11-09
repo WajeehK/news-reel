@@ -80,8 +80,8 @@ company|rollsroyce|Rolls-Royce|rolls-royce|10069F|rollsroyce|rolls-royce.com|RR.
 company|bae|BAE Systems|bae systems|E4002B||baesystems.com|BA.L|gb||
 company|lockheed|Lockheed Martin|lockheed martin,lockheed|00519B|lockheedmartin|lockheedmartin.com|LMT|us||
 company|palantir|Palantir|palantir|FFFFFF|palantir|palantir.com|PLTR|us||
-company|coinbase|Coinbase|coinbase|0052FF|coinbase|coinbase.com|COIN|us||
-company|binance|Binance|binance,changpeng zhao|F0B90B|binance|binance.com||||
+company|coinbase|Coinbase|coinbase|0052FF|coinbase|coinbase.com|COIN|us|Crypto exchange|
+company|binance|Binance|binance,changpeng zhao|F0B90B|binance|binance.com|||Crypto exchange|
 company|blackrock|BlackRock|blackrock,larry fink|FFFFFF||blackrock.com|BLK|us||
 company|berkshire|Berkshire Hathaway|berkshire hathaway,warren buffett|1F3F7A||berkshirehathaway.com|BRK-B|us||
 company|alibaba|Alibaba|alibaba|FF6A00|alibabadotcom|alibaba.com|BABA|cn||
@@ -138,6 +138,16 @@ company|nestle|Nestlé|nestle,nestlé|FFFFFF|nestle|nestle.com|NESN.SW|ch||
 company|siemens|Siemens|siemens|009999|siemens|siemens.com|SIE.DE|de||
 company|ferrari|Ferrari|ferrari|DA291C|ferrari|ferrari.com|RACE|it||
 company|redbull|Red Bull|red bull|DB0A40|redbull|redbull.com||at||
+company|kraken|Kraken|kraken exchange,kraken crypto,kraken's|7132F5|kraken|kraken.com||us|Crypto exchange|
+company|gemini|Gemini|gemini exchange,winklevoss|00DCFA|gemini|gemini.com|GEMI|us|Crypto exchange|
+company|bybit|Bybit|bybit|F7A600|bybit|bybit.com|||Crypto exchange|
+company|okx|OKX|OKX|FFFFFF|okx|okx.com|||Crypto exchange|
+company|cryptocom|Crypto.com|crypto.com|1199FA|cryptodotcom|crypto.com|||Crypto exchange|
+company|bitstamp|Bitstamp|bitstamp|0CA05C||bitstamp.net|||Crypto exchange|
+company|ftx|FTX|FTX,sam bankman-fried|02A6C2||ftx.com|||Crypto exchange|
+company|polymarket|Polymarket|polymarket|2E5CFF||polymarket.com||us|Prediction market|
+company|kalshi|Kalshi|kalshi|00D991||kalshi.com||us|Prediction market|
+company|metamask|MetaMask|metamask|F6851B|metamask|metamask.io|||Crypto wallet|
 # ---- crypto ----
 crypto|bitcoin|Bitcoin|bitcoin,BTC|F7931A|bitcoin|bitcoin.org|bitcoin|||
 crypto|ethereum|Ethereum|ethereum,ether,ETH|8C8CFF|ethereum|ethereum.org|ethereum|||

@@ -213,3 +213,51 @@ html.intro-on .dock,html.intro-on .top{visibility:hidden}
 .intro .plx{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:13px}
 .intro:has(.plc) .bug,.intro:has(.plc) .skip{top:calc(var(--st) + 26px)}
 .intro:has(.plc) .skip{top:auto;bottom:calc(var(--sb) + 2px);right:50%;transform:translateX(50%)}
+/* ===== v4 ===== */
+.intro .art{position:absolute;inset:0}
+.intro.shift .art{transform:translateY(-9%) scale(.84);transform-origin:50% 30%}
+.intro.shift .med{top:47%}
+.intro .hl{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.t-markets .big.nt{color:#fff}
+.intro .med.per.face{width:128px;height:128px;background:#111;border:3px solid rgba(255,255,255,.9);overflow:visible;box-shadow:0 0 0 6px color-mix(in srgb,var(--b) 35%,transparent),0 18px 50px rgba(0,0,0,.7),0 0 60px color-mix(in srgb,var(--b) 50%,transparent)}
+.intro .med.per .fc{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 20%}
+.intro .med.per.face .fb{right:-4px;bottom:6px;width:40px;height:30px}
+.intro .med.per.face .ob{left:-6px;bottom:4px;width:40px;height:40px}
+.intro .med.per.face::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--b);opacity:0;animation:ring2 1.4s 1.2s ease-out 2}
+/* exchange / crypto company */
+.t-exchange .xo{position:absolute;left:50%;top:31%;width:0;height:0}
+.t-exchange .xo i{position:absolute;left:0;top:0;border-radius:50%;border:1px solid color-mix(in srgb,var(--b) 45%,transparent);transform:translate(-50%,-50%);animation:arr .8s cubic-bezier(.3,1.3,.5,1) both}
+.t-exchange .xo .r1{width:210px;height:210px;animation-delay:.1s}.t-exchange .xo .r2{width:290px;height:290px;animation-delay:.2s;opacity:.6}.t-exchange .xo .r3{width:380px;height:380px;animation-delay:.3s;opacity:.35}
+.t-exchange .xo em{position:absolute;left:0;top:0;width:30px;height:30px;margin:-15px;border-radius:50%;display:grid;place-items:center;font:800 15px/1 var(--sans);font-style:normal;color:#fff;background:#1a1c20;border:1px solid rgba(255,255,255,.25);box-shadow:0 0 16px rgba(0,0,0,.6);animation:orbit 6s linear infinite}
+.t-exchange .xo .ob0{--r:145px;background:#f7931a}.t-exchange .xo .ob1{--r:145px;animation-delay:-1.5s;background:#627eea}.t-exchange .xo .ob2{--r:190px;animation-delay:-3s;background:linear-gradient(135deg,#9945ff,#14f195)}.t-exchange .xo .ob3{--r:190px;animation-delay:-4.5s;background:#26a17b;font-size:9px}
+@keyframes orbit{from{transform:rotate(0) translateX(var(--r)) rotate(0)}to{transform:rotate(360deg) translateX(var(--r)) rotate(-360deg)}}
+.t-exchange .xhero{position:absolute;left:50%;top:31%;width:150px;height:150px;margin:-75px;border-radius:40px;background:#0b0c0f;display:grid;place-items:center;
+ border:1.5px solid color-mix(in srgb,var(--b) 75%,#fff 10%);box-shadow:0 0 0 10px color-mix(in srgb,var(--b) 12%,transparent),0 0 80px color-mix(in srgb,var(--b) 55%,transparent),inset 0 1px 0 rgba(255,255,255,.18);
+ animation:xh 1s .15s cubic-bezier(.25,1.4,.5,1) both}
+@keyframes xh{from{opacity:0;transform:scale(.4) rotate(-10deg)}}
+.t-exchange .xl{display:block;width:92px;height:92px}.t-exchange .xl.pn{width:104px;height:104px;border-radius:26px;padding:12px}.t-exchange .xl.mono{width:104px;height:104px;font-size:40px;border-radius:26px}
+.t-exchange .name{top:52%}.t-exchange .cap{top:calc(52% + 58px)}
+.t-exchange .coins{position:absolute;left:0;right:0;top:calc(52% + 100px);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:0 14px;animation:fadeL .5s 1.7s both}
+.t-exchange .cc{font:700 12px var(--mono);padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#dfe3e6}
+.t-exchange .cc b{color:#fff;margin-right:2px}.t-exchange .cc em{font-style:normal}.t-exchange .cc.g em{color:#30d158}.t-exchange .cc.r em{color:#ff453a}
+/* story player */
+.player{position:fixed;inset:0;height:100lvh;z-index:220;background:#000;touch-action:none;-webkit-user-select:none;user-select:none;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .3s;--st:max(env(safe-area-inset-top),16px)}
+.player.drag{transition:none}.player.closing{transform:translateY(40%) scale(.9)!important;opacity:0!important}
+.pl-stage{position:absolute;inset:0;perspective:1200px;overflow:hidden;background:#000}
+.player .intro{position:absolute;inset:0;width:100%;height:100%;animation:none;cursor:default}
+.player .intro.in-r{animation:plInR .52s cubic-bezier(.22,.9,.24,1) both}.player .intro.in-l{animation:plInL .52s cubic-bezier(.22,.9,.24,1) both}
+.player .intro.out-l{animation:plOutL .52s cubic-bezier(.22,.9,.24,1) both;pointer-events:none}.player .intro.out-r{animation:plOutR .52s cubic-bezier(.22,.9,.24,1) both;pointer-events:none}
+@keyframes plInR{from{transform:translateX(100%) rotateY(-28deg);transform-origin:left center}to{transform-origin:left center}}
+@keyframes plOutL{to{transform:translateX(-100%) rotateY(28deg);transform-origin:right center;filter:brightness(.35)}}
+@keyframes plInL{from{transform:translateX(-100%) rotateY(28deg);transform-origin:right center}to{transform-origin:right center}}
+@keyframes plOutR{to{transform:translateX(100%) rotateY(-28deg);transform-origin:left center;filter:brightness(.35)}}
+.player.paused .intro *,.player.paused .intro{animation-play-state:paused!important}
+.pl-top{position:absolute;z-index:5;left:10px;right:10px;top:calc(var(--st) + 4px);pointer-events:none}
+.pl-top .segs{display:flex;gap:4px}.pl-top .segs i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.25);overflow:hidden}
+.pl-top .segs b{display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0)}
+.pl-row{display:flex;justify-content:flex-end;align-items:center;gap:10px;margin-top:10px}
+.pl-n{font:600 12px var(--sans);color:rgba(255,255,255,.7)}
+.plx{pointer-events:auto;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.player .intro .bug{top:calc(var(--st) + 22px)}
+.intro .name.wrap{white-space:normal;line-height:1.02;text-wrap:balance}
+.intro.shift.t-crypto .price,.intro.shift.t-crypto .chg{display:none}

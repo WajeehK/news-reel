@@ -39,12 +39,12 @@ TOPICS = [  # order = priority when scores tie
  ('election', r"election\w*|vote[sd]?|voting|voters|ballot\w*|polls?|polling|campaign\w*|primar(?:y|ies)|candidate\w*|electoral|referendum|by-election|midterm\w*|landslide|exit poll"),
  ('war', r"war|wars|missile\w*|strike[sd]?|airstrike\w*|drone\w*|troops|military|army|invasion|invade\w*|ceasefire|gaza|ukraine|israel\w*|hamas|hezbollah|russia\w*|nato|bomb\w*|attack\w*|killed|shelling|frontline|idf|houthi\w*|pentagon|hegseth|defen[cs]e secretary|warship\w*|nuclear"),
  ('crypto', r"bitcoin|btc|ethereum|eth|crypto\w*|stablecoin\w*|blockchain|solana|xrp|dogecoin|coinbase|binance|token\w*|defi|memecoin\w*"),
- ('markets', r"stock\w*|shares|market\w*|dow|nasdaq|s&p|ftse|economy|economic|inflation|interest rates?|fed|federal reserve|bank of england|gdp|recession|tariff\w*|earnings|profit\w*|investors?|bonds?|yields?|oil price\w*|budget|tax\w*|jobs report|unemployment|wall street|ipo"),
+ ('markets', r"stocks?|stock markets?|share prices?|shares (?:rose|fell|jumped|slumped|surged|plunged|tumbled|climbed)|markets|nasdaq|dow jones|s&p 500|ftse(?: 100| 250)?|wall street|investors?|bonds?|gilts?|yields?|inflation|interest rates?|rate (?:cut|hike|rise)s?|central bank|federal reserve|bank of england|gdp|recession|tariffs?|earnings|ipo|oil prices?|brent crude|sell-?off|market rally|stock rally|currency|sterling|dollar|valuation|trillion|billion deal|takeover|merger|profits? warning"),
  ('tech', r"ai|a\.i\.|artificial intelligence|openai|google|apple|microsoft|meta|amazon|nvidia|tesla|chip\w*|semiconductor\w*|iphone|software|cyber\w*|hack\w*|app|apps|robot\w*|tech\w*|startup\w*|data|smartphone\w*|chatgpt|x\.com|elon musk|spacex"),
  ('sport', r"football|premier league|champions league|goal\w*|match|cup|nfl|nba|mlb|nhl|tennis|golf|cricket|rugby|f1|formula one|grand prix|olympic\w*|world cup|coach|manager|striker|quarterback|wins|beat|defeat\w*|title|league|season|transfer|wimbledon|boxing|ufc|arsenal|chelsea|liverpool|man(?:chester)? (?:city|united)|tottenham|real madrid|barcelona|sport\w*"),
  ('disaster', r"earthquake\w*|quake|hurricane\w*|typhoon\w*|cyclone\w*|storm\w*|flood\w*|wildfire\w*|fire\w*|blaze|tornado\w*|tsunami|volcano\w*|eruption|landslide\w*|heatwave|drought|weather|snow|evacuat\w*|crash\w*|derail\w*|explosion|shooting|gunman|collapse\w*|death toll|rescue\w*|outbreak|met office|warning"),
  ('science', r"science|scientists?|study|research\w*|nasa|space|rocket|moon|mars|planet\w*|asteroid|telescope|climate|species|fossil\w*|dinosaur\w*|vaccine\w*|cancer|disease|health|medical|doctors?|nhs|genetic\w*|physics|discover\w*|astronaut\w*|universe"),
- ('politics', r"president|prime minister|pm|minister\w*|government|parliament|congress|senate|senators?|house speaker|white house|trump|biden|starmer|labour|tory|tories|conservative\w*|republican\w*|democrat\w*|policy|bill|law|cabinet|mp|mps|downing street|governor|mayor|resign\w*|sanction\w*|diplomat\w*|summit|treaty|shutdown"),
+ ('politics', r"pope|vatican|church|archbishop|bishop|religious|catholic|faith leaders?|austerity|protest\w*|president|prime minister|pm|minister\w*|government|parliament|congress|senate|senators?|house speaker|white house|trump|biden|starmer|labour|tory|tories|conservative\w*|republican\w*|democrat\w*|policy|bill|law|cabinet|mp|mps|downing street|governor|mayor|resign\w*|sanction\w*|diplomat\w*|summit|treaty|shutdown"),
 ]
 TOPIC_RX = [(t, re.compile(r'\b(?:' + rx + r')\b', re.I)) for t, rx in TOPICS]
 UP_RX = re.compile(r'\b(soar\w*|surg\w*|jump\w*|rall\w*|rise[sn]?|rising|climb\w*|gain\w*|record high|rockets?|boom\w*|up \d|higher)\b', re.I)
@@ -133,19 +133,25 @@ def entities(titles):
         if not any(e in r for r in res): res.append(e)
     return res[:6]
 
-def classify(text):
-    best, bs = 'general', 0
+MKT_TITLE = re.compile(r"\b(stocks?|shares|markets?|nasdaq|dow|s&p|ftse|wall st(?:reet)?|investors?|bonds?|yields?|inflation|rates?|gdp|recession|tariffs?|earnings|ipo|oil|prices?|economy|sterling|pound|dollar|profits?|sales|revenue|valuation|deal|takeover)\b", re.I)
+def classify(text, title=''):
+    sc = []
     for i, (t, rx) in enumerate(TOPIC_RX):
         n = len(rx.findall(text))
-        w = n * (1.6 if t in ('legal', 'disaster', 'crypto', 'election') else 1.0)
-        if w > bs: best, bs = t, w
+        sc.append((n * (1.6 if t in ('legal', 'disaster', 'crypto', 'election') else 1.0), -i, t))
+    sc.sort(reverse=True)
+    best = sc[0][2] if sc[0][0] > 0 else 'general'
+    # markets only when the headline is actually about markets/money moves
+    if best == 'markets' and title and not MKT_TITLE.search(title):
+        nxt = [x for x in sc[1:] if x[0] > 0]
+        best = nxt[0][2] if nxt else 'general'
     return best
 
 def params(topic, title, text):
     p = {}
     if topic in ('markets', 'crypto'):
         u, d = len(UP_RX.findall(title)), len(DOWN_RX.findall(title))
-        p['dir'] = 'up' if u > d else 'down' if d > u else ('up' if len(UP_RX.findall(text)) >= len(DOWN_RX.findall(text)) else 'down')
+        if u != d: p['dir'] = 'up' if u > d else 'down'
         m = re.search(r'(\d+(?:\.\d+)?)\s?(?:%|per ?cent)', title)
         if m: p['pct'] = m.group(1)
     if topic == 'legal':
@@ -196,10 +202,10 @@ def detect(arts, topic):
     return ranked[0], ranked[:5]
 
 def ent_rec(i):
-    e = ENTS[i]; r = {'id': i, 't': e['t'], 'n': e['n'], 'c': e.get('c', ''), 'logo': e.get('logo'), 'mono': e.get('mono'), 'cc': e.get('cc'), 'role': e.get('role'), 'tk': e.get('tk')}
+    e = ENTS[i]; r = {'id': i, 't': e['t'], 'n': e['n'], 'c': e.get('c', ''), 'logo': e.get('logo'), 'mono': e.get('mono'), 'cc': e.get('cc'), 'role': e.get('role'), 'tk': e.get('tk'), 'face': e.get('face')}
     o = e.get('org')
     if o and o in ENTS:
-        oe = ENTS[o]; r['org'] = {'id': o, 'n': oe['n'], 'logo': oe.get('logo'), 'mono': oe.get('mono'), 'c': oe.get('c'), 'tk': oe.get('tk')}
+        oe = ENTS[o]; r['org'] = {k: v for k, v in {'id': o, 'n': oe['n'], 'logo': oe.get('logo'), 'mono': oe.get('mono'), 'c': oe.get('c'), 'tk': oe.get('tk')}.items() if v}
         if not r['tk'] and oe['t'] == 'company': r['tk'] = oe.get('tk')
     return {k: v for k, v in r.items() if v}
 
@@ -217,10 +223,54 @@ def quotes(syms):
     with cf.ThreadPoolExecutor(8) as ex: list(ex.map(one, list(syms)[:60]))
     return out
 
+BAD_IMG = re.compile(r'poster-|logo|placeholder|default|branded|favicon|sprite|1x1|blank|icon', re.I)
+def upgrade_img(u):
+    if not u: return u
+    u = html.unescape(u.strip())
+    u = re.sub(r'(ichef\.bbci\.co\.uk/(?:ace/standard|news|ace/ws|images/ic))/\d+(?:x\d+)?/', r'\1/976/', u)
+    u = re.sub(r'(e3\.365dm\.com/.+?)/\d+x\d+/', r'\1/1600x900/', u)
+    u = re.sub(r'(media\.npr\.org/.+?)\?s=\d+', r'\1?s=1400', u)
+    return u
+def og_image(url):
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15', 'Accept': 'text/html'})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            h = r.read(450000).decode('utf-8', 'ignore')
+    except Exception:
+        return None
+    def meta(*names):
+        for n in names:
+            m = re.search(r'<meta[^>]+(?:property|name)=["\']' + re.escape(n) + r'["\'][^>]*content=["\']([^"\']+)', h, re.I) or \
+                re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]*(?:property|name)=["\']' + re.escape(n) + r'["\']', h, re.I)
+            if m: return m.group(1)
+    img = meta('og:image:secure_url', 'og:image', 'twitter:image', 'twitter:image:src')
+    if not img or BAD_IMG.search(img.split('?')[0]): return None
+    w = meta('og:image:width')
+    try: w = int(w)
+    except Exception: w = 1200 if re.search(r'1[0-9]{3}|2048|/976/', img) else 0
+    return {'u': upgrade_img(urllib.parse.urljoin(url, img)), 'w': w}
+def enrich_images(stories, n=160):
+    jobs = []
+    for s in stories[:n]:
+        links = [x['link'] for x in s['srcs'] if 'news.google.com' not in x['link']][:3]
+        for l in links: jobs.append((s['id'], l))
+    with cf.ThreadPoolExecutor(16) as ex:
+        res = list(ex.map(lambda j: (j[0], og_image(j[1])), jobs))
+    best = {}
+    for sid, r in res:
+        if r and (sid not in best or r['w'] > best[sid]['w']): best[sid] = r
+    for s in stories:
+        b = best.get(s['id'])
+        if b and b['w'] >= 600 or (b and not s.get('img')): s['img'] = b['u']; s['imgw'] = b['w']
+        elif s.get('img'):
+            s['img'] = upgrade_img(s['img']); s['imgw'] = 976 if '/976/' in s['img'] else 0
+        if s.get('img') and s.get('imgw', 0) < 600 and not re.search(r'/976/|1600x900|s=1400', s['img']): s['img_lo'] = 1
+    print('images', sum(1 for s in stories if s.get('img') and not s.get('img_lo')), 'hi-res of', len(stories), file=sys.stderr)
+
 def merge_pass(cl):
     """Merge clusters about the same story: same main entity + topic + time window + shared words, or near-identical headlines."""
     for c in cl:
-        c['topic'] = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']))
+        c['topic'] = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']), ' '.join(a['title'] for a in c['arts'][:3]))
         c['me'], c['ents_all'] = detect(c['arts'], c['topic'])
         c['last'] = max(a['t'] for a in c['arts'])
         ew = set()
@@ -257,7 +307,7 @@ def build():
         for a in sorted(c['arts'], key=lambda a: a['t']):
             if a['src'] not in [s['src'] for s in srcs]: srcs.append({'src': a['src'], 'link': a['link'], 't': a['t']})
         alltext = ' '.join(a['title'] + ' ' + a['desc'] for a in c['arts'])
-        topic = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']))
+        topic = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']), ' '.join(a['title'] for a in c['arts'][:3]))
         me, eall = detect(c['arts'], topic)
         first = min(a['t'] for a in c['arts']); last = max(a['t'] for a in c['arts'])
         descs = []
@@ -276,6 +326,7 @@ def build():
         })
     stories.sort(key=lambda s: -s['score'])
     stories = stories[:160]
+    enrich_images(stories)
     # archive (rolling 3 days) for timelines
     ap = os.path.join(DATA, 'archive.json')
     try: arch = json.load(open(ap))

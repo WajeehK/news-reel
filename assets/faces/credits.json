@@ -1,0 +1,293 @@
+{
+"trump": {
+"title": "Donald Trump",
+"page": "https://en.wikipedia.org/wiki/Donald_Trump"
+},
+"vance": {
+"title": "JD Vance",
+"page": "https://en.wikipedia.org/wiki/JD_Vance"
+},
+"hegseth": {
+"title": "Pete Hegseth",
+"page": "https://en.wikipedia.org/wiki/Pete_Hegseth",
+"file": "https://commons.wikimedia.org/wiki/File:Pete_Hegseth_Official_Portrait.jpg",
+"artist": "U.S. Department of Defense",
+"license": "Public domain"
+},
+"rubio": {
+"title": "Marco Rubio",
+"page": "https://en.wikipedia.org/wiki/Marco_Rubio",
+"file": "https://commons.wikimedia.org/wiki/File:Official_portrait_of_Secretary_Marco_Rubio_%28cropped%29%282%29.jpg",
+"artist": "U.S. Department of State",
+"license": "Public domain"
+},
+"stephenmiller": {
+"title": "Stephen Miller (political advisor)",
+"page": "https://en.wikipedia.org/wiki/Stephen_Miller"
+},
+"patel": {
+"title": "Kash Patel",
+"page": "https://en.wikipedia.org/wiki/Kash_Patel"
+},
+"bondi": {
+"title": "Pam Bondi",
+"page": "https://en.wikipedia.org/wiki/Pam_Bondi"
+},
+"rfk": {
+"title": "Robert F. Kennedy Jr.",
+"page": "https://en.wikipedia.org/wiki/Robert_F._Kennedy_Jr."
+},
+"gabbard": {
+"title": "Tulsi Gabbard",
+"page": "https://en.wikipedia.org/wiki/Tulsi_Gabbard",
+"file": "https://commons.wikimedia.org/wiki/File:Director_Tulsi_Gabbard_Official_Portrait.jpg",
+"artist": "Office of the Director of National Intelligence",
+"license": "Public domain"
+},
+"musk": {
+"title": "Elon Musk",
+"page": "https://en.wikipedia.org/wiki/Elon_Musk"
+},
+"biden": {
+"title": "Joe Biden",
+"page": "https://en.wikipedia.org/wiki/Joe_Biden"
+},
+"obama": {
+"title": "Barack Obama",
+"page": "https://en.wikipedia.org/wiki/Barack_Obama"
+},
+"harris": {
+"title": "Kamala Harris",
+"page": "https://en.wikipedia.org/wiki/Kamala_Harris"
+},
+"newsom": {
+"title": "Gavin Newsom",
+"page": "https://en.wikipedia.org/wiki/Gavin_Newsom"
+},
+"aoc": {
+"title": "Alexandria Ocasio-Cortez",
+"page": "https://en.wikipedia.org/wiki/Alexandria_Ocasio-Cortez"
+},
+"mamdani": {
+"title": "Zohran Mamdani",
+"page": "https://en.wikipedia.org/wiki/Zohran_Mamdani",
+"file": "https://commons.wikimedia.org/wiki/File:Zohran_Mamdani_05.25.25_%28b%29_%28cropped%29.jpg",
+"artist": "Dmitryshein",
+"license": "CC BY-SA 4.0"
+},
+"johnson_speaker": {
+"title": "Mike Johnson",
+"page": "https://en.wikipedia.org/wiki/Mike_Johnson",
+"file": "https://commons.wikimedia.org/wiki/File:Speaker_Mike_Johnson_Official_Portrait_%28cropped%29%28b%29.jpg",
+"artist": "United States Congress",
+"license": "Public domain"
+},
+"starmer": {
+"title": "Keir Starmer",
+"page": "https://en.wikipedia.org/wiki/Keir_Starmer"
+},
+"reeves": {
+"title": "Rachel Reeves",
+"page": "https://en.wikipedia.org/wiki/Rachel_Reeves"
+},
+"badenoch": {
+"title": "Kemi Badenoch",
+"page": "https://en.wikipedia.org/wiki/Kemi_Badenoch"
+},
+"farage": {
+"title": "Nigel Farage",
+"page": "https://en.wikipedia.org/wiki/Nigel_Farage"
+},
+"kingcharles": {
+"title": "Charles III",
+"page": "https://en.wikipedia.org/wiki/Charles_III"
+},
+"princewilliam": {
+"title": "William, Prince of Wales",
+"page": "https://en.wikipedia.org/wiki/William%2C_Prince_of_Wales"
+},
+"harry": {
+"title": "Prince Harry, Duke of Sussex",
+"page": "https://en.wikipedia.org/wiki/Prince_Harry%2C_Duke_of_Sussex"
+},
+"andrew": {
+"title": "Andrew Mountbatten-Windsor",
+"page": "https://en.wikipedia.org/wiki/Andrew_Mountbatten-Windsor"
+},
+"netanyahu": {
+"title": "Benjamin Netanyahu",
+"page": "https://en.wikipedia.org/wiki/Benjamin_Netanyahu"
+},
+"zelensky": {
+"title": "Volodymyr Zelensky",
+"page": "https://en.wikipedia.org/wiki/Volodymyr_Zelenskyy"
+},
+"putin": {
+"title": "Vladimir Putin",
+"page": "https://en.wikipedia.org/wiki/Vladimir_Putin"
+},
+"xi": {
+"title": "Xi Jinping",
+"page": "https://en.wikipedia.org/wiki/Xi_Jinping"
+},
+"modi": {
+"title": "Narendra Modi",
+"page": "https://en.wikipedia.org/wiki/Narendra_Modi"
+},
+"macron": {
+"title": "Emmanuel Macron",
+"page": "https://en.wikipedia.org/wiki/Emmanuel_Macron"
+},
+"merz": {
+"title": "Friedrich Merz",
+"page": "https://en.wikipedia.org/wiki/Friedrich_Merz"
+},
+"meloni": {
+"title": "Giorgia Meloni",
+"page": "https://en.wikipedia.org/wiki/Giorgia_Meloni"
+},
+"erdogan": {
+"title": "Recep Tayyip Erdoğan",
+"page": "https://en.wikipedia.org/wiki/Recep_Tayyip_Erdo%C4%9Fan"
+},
+"khamenei": {
+"title": "Ali Khamenei",
+"page": "https://en.wikipedia.org/wiki/Ali_Khamenei"
+},
+"mbs": {
+"title": "Mohammed bin Salman",
+"page": "https://en.wikipedia.org/wiki/Mohammed_bin_Salman"
+},
+"kimjongun": {
+"title": "Kim Jong Un",
+"page": "https://en.wikipedia.org/wiki/Kim_Jong_Un"
+},
+"lula": {
+"title": "Luiz Inácio Lula da Silva",
+"page": "https://en.wikipedia.org/wiki/Luiz_In%C3%A1cio_Lula_da_Silva"
+},
+"milei": {
+"title": "Javier Milei",
+"page": "https://en.wikipedia.org/wiki/Javier_Milei"
+},
+"carney": {
+"title": "Mark Carney",
+"page": "https://en.wikipedia.org/wiki/Mark_Carney"
+},
+"albanese": {
+"title": "Anthony Albanese",
+"page": "https://en.wikipedia.org/wiki/Anthony_Albanese"
+},
+"sheinbaum": {
+"title": "Claudia Sheinbaum",
+"page": "https://en.wikipedia.org/wiki/Claudia_Sheinbaum"
+},
+"maduro": {
+"title": "Nicolás Maduro",
+"page": "https://en.wikipedia.org/wiki/Nicol%C3%A1s_Maduro"
+},
+"orban": {
+"title": "Viktor Orbán",
+"page": "https://en.wikipedia.org/wiki/Viktor_Orb%C3%A1n"
+},
+"vonderleyen": {
+"title": "Ursula von der Leyen",
+"page": "https://en.wikipedia.org/wiki/Ursula_von_der_Leyen"
+},
+"rutte": {
+"title": "Mark Rutte",
+"page": "https://en.wikipedia.org/wiki/Mark_Rutte"
+},
+"popeleo": {
+"title": "Pope Leo XIV",
+"page": "https://en.wikipedia.org/wiki/Pope_Leo_XIV"
+},
+"powell": {
+"title": "Jerome Powell",
+"page": "https://en.wikipedia.org/wiki/Jerome_Powell"
+},
+"huang": {
+"title": "Jensen Huang",
+"page": "https://en.wikipedia.org/wiki/Jensen_Huang"
+},
+"altman": {
+"title": "Sam Altman",
+"page": "https://en.wikipedia.org/wiki/Sam_Altman"
+},
+"zuckerberg": {
+"title": "Mark Zuckerberg",
+"page": "https://en.wikipedia.org/wiki/Mark_Zuckerberg"
+},
+"bezos": {
+"title": "Jeff Bezos",
+"page": "https://en.wikipedia.org/wiki/Jeff_Bezos"
+},
+"cook": {
+"title": "Tim Cook",
+"page": "https://en.wikipedia.org/wiki/Tim_Cook"
+},
+"epstein": {
+"title": "Jeffrey Epstein",
+"page": "https://en.wikipedia.org/wiki/Jeffrey_Epstein"
+},
+"combs": {
+"title": "Sean Combs",
+"page": "https://en.wikipedia.org/wiki/Sean_Combs"
+},
+"swift": {
+"title": "Taylor Swift",
+"page": "https://en.wikipedia.org/wiki/Taylor_Swift"
+},
+"ronaldo": {
+"title": "Cristiano Ronaldo",
+"page": "https://en.wikipedia.org/wiki/Cristiano_Ronaldo"
+},
+"messi": {
+"title": "Lionel Messi",
+"page": "https://en.wikipedia.org/wiki/Lionel_Messi"
+},
+"lebron": {
+"title": "LeBron James",
+"page": "https://en.wikipedia.org/wiki/LeBron_James"
+},
+"haaland": {
+"title": "Erling Haaland",
+"page": "https://en.wikipedia.org/wiki/Erling_Haaland"
+},
+"salah": {
+"title": "Mohamed Salah",
+"page": "https://en.wikipedia.org/wiki/Mohamed_Salah"
+},
+"kane": {
+"title": "Harry Kane",
+"page": "https://en.wikipedia.org/wiki/Harry_Kane"
+},
+"verstappen": {
+"title": "Max Verstappen",
+"page": "https://en.wikipedia.org/wiki/Max_Verstappen"
+},
+"hamilton": {
+"title": "Lewis Hamilton",
+"page": "https://en.wikipedia.org/wiki/Lewis_Hamilton"
+},
+"norris": {
+"title": "Lando Norris",
+"page": "https://en.wikipedia.org/wiki/Lando_Norris"
+},
+"djokovic": {
+"title": "Novak Djokovic",
+"page": "https://en.wikipedia.org/wiki/Novak_Djokovic"
+},
+"alcaraz": {
+"title": "Carlos Alcaraz",
+"page": "https://en.wikipedia.org/wiki/Carlos_Alcaraz"
+},
+"sinner": {
+"title": "Jannik Sinner",
+"page": "https://en.wikipedia.org/wiki/Jannik_Sinner"
+},
+"brand": {
+"title": "Russell Brand",
+"page": "https://en.wikipedia.org/wiki/Russell_Brand"
+}
+}

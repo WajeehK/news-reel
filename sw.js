@@ -1,6 +1,6 @@
 // News Reel service worker: versioned shell cache, network-first with no-cache fetches.
-const V='nr-shell-v3';
-const SHELL=['./','index.html','app.css?v=3','intros.css?v=3','intros.js?v=3','app.js?v=3','icon-192.png','manifest.webmanifest'];
+const V='nr-shell-v4';
+const SHELL=['./','index.html','app.css?v=4','intros.css?v=4','intros.js?v=4','app.js?v=4','icon-192.png','manifest.webmanifest'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(V).then(c=>c.addAll(SHELL)).catch(()=>{}))});
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==V)await caches.delete(k);await self.clients.claim()})()));
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin)return;

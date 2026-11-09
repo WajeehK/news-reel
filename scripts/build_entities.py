@@ -38,6 +38,8 @@ with cf.ThreadPoolExecutor(12) as ex:
 for e in ents.values():
     if os.path.exists(os.path.join(R, 'assets/logos', os.path.basename(e.get('logo', '')))) and e.get('logo', '').endswith('.svg'): e['mono'] = 1
     e.pop('slug', None); e.pop('dom', None)
+for i, e in ents.items():
+    if e['t'] == 'person' and os.path.exists(os.path.join(R, f'assets/faces/{i}.jpg')): e['face'] = f'assets/faces/{i}.jpg'
 json.dump(ents, open(os.path.join(R, 'entities.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
 from collections import Counter
 print(len(ents), Counter(e['t'] for e in ents.values()), 'logos', sum('logo' in e for e in ents.values()), 'flags', len(os.listdir(os.path.join(R, 'assets/flags'))))
