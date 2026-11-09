@@ -10,7 +10,7 @@
 @keyframes lb{from{transform:scaleY(0)}}
 .intro .bug{position:absolute;z-index:4;top:calc(9vh + 14px);left:18px;font:800 12px/1 var(--mono);letter-spacing:.14em;display:flex;align-items:center;gap:8px;animation:fadeL .5s .25s both}
 .intro .bug span{color:var(--ac);font-weight:700}
-.intro .bug i{width:8px;height:8px;border-radius:50%;background:#ff3b30;box-shadow:0 0 10px #ff3b30;animation:blink 1s infinite}
+.intro .bug i{position:static;width:8px;height:8px;border-radius:50%;background:#ff3b30;box-shadow:0 0 10px #ff3b30;animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.25}}@keyframes fadeL{from{opacity:0;transform:translateX(-14px)}}
 .intro .l3{position:absolute;z-index:4;left:16px;right:16px;bottom:calc(9vh + 18px)}
 .intro .kick{display:inline-block;background:var(--ac);color:#000;font:900 12px/1 var(--mono);letter-spacing:.16em;padding:7px 10px 6px;border-radius:4px;transform-origin:left;animation:kick .45s 1.75s cubic-bezier(.2,1.4,.4,1) both}
