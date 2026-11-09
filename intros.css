@@ -1,18 +1,18 @@
 /* ===== cinematic intros ===== */
-.intro{position:fixed;inset:0;z-index:200;background:#000;overflow:hidden;color:#fff;font-family:var(--sans);animation:inIn .35s ease both;cursor:pointer;-webkit-user-select:none;user-select:none}
+.intro{position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;height:100lvh;min-height:100%;z-index:200;--st:max(env(safe-area-inset-top),16px);--sb:max(env(safe-area-inset-bottom),18px);background:#000;overflow:hidden;color:#fff;font-family:var(--sans);animation:inIn .35s ease both;cursor:pointer;-webkit-user-select:none;user-select:none}
 .intro.out{animation:inOut .38s cubic-bezier(.6,0,.8,.4) forwards}
 @keyframes inIn{from{opacity:0}}@keyframes inOut{to{opacity:0;transform:scale(1.08);filter:blur(6px)}}
 .intro .stage{position:absolute;inset:0;animation:push 3.6s cubic-bezier(.2,.7,.2,1) both}
 @keyframes push{from{transform:scale(1.12)}to{transform:scale(1)}}
 .intro .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%,transparent 40%,rgba(0,0,0,.85))}
-.intro .lb{position:absolute;left:0;right:0;height:9vh;background:#000;z-index:3;animation:lb .5s cubic-bezier(.2,.8,.2,1) both}
+.intro .lb{display:none;position:absolute;left:0;right:0;height:9vh;background:#000;z-index:3;animation:lb .5s cubic-bezier(.2,.8,.2,1) both}
 .intro .lb.top{top:0;transform-origin:top}.intro .lb.bot{bottom:0;transform-origin:bottom}
 @keyframes lb{from{transform:scaleY(0)}}
-.intro .bug{position:absolute;z-index:4;top:calc(9vh + 14px);left:18px;font:800 12px/1 var(--mono);letter-spacing:.14em;display:flex;align-items:center;gap:8px;animation:fadeL .5s .25s both}
+.intro .bug{position:absolute;z-index:4;top:calc(var(--st) + 12px);left:18px;font:800 12px/1 var(--mono);letter-spacing:.14em;display:flex;align-items:center;gap:8px;animation:fadeL .5s .25s both}
 .intro .bug span{color:var(--ac);font-weight:700}
 .intro .bug i{position:static;width:8px;height:8px;border-radius:50%;background:#ff3b30;box-shadow:0 0 10px #ff3b30;animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.25}}@keyframes fadeL{from{opacity:0;transform:translateX(-14px)}}
-.intro .l3{position:absolute;z-index:4;left:16px;right:16px;bottom:calc(9vh + 18px)}
+.intro .l3{position:absolute;z-index:4;left:16px;right:16px;bottom:calc(var(--sb) + 22px)}
 .intro .kick{display:inline-block;background:var(--ac);color:#000;font:900 12px/1 var(--mono);letter-spacing:.16em;padding:7px 10px 6px;border-radius:4px;transform-origin:left;animation:kick .45s 1.75s cubic-bezier(.2,1.4,.4,1) both}
 .intro.t-general .kick{background:#fff}
 @keyframes kick{from{transform:scaleX(0)}}
@@ -21,7 +21,7 @@
 .intro .src{margin-top:8px;color:#9aa4ad;font:600 12px var(--mono);letter-spacing:.06em;animation:fadeL .5s 2.3s both}
 .intro .sweep{position:absolute;inset:-20% -60%;z-index:5;pointer-events:none;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%);animation:sweep 1.1s 1.7s ease-in-out both}
 @keyframes sweep{from{transform:translateX(-60%)}to{transform:translateX(60%)}}
-.intro .skip{position:absolute;z-index:6;right:16px;top:calc(9vh + 10px);font:600 11px var(--sans);color:rgba(255,255,255,.55);padding:6px 10px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
+.intro .skip{position:absolute;z-index:6;right:16px;top:calc(var(--st) + 6px);font:600 11px var(--sans);color:rgba(255,255,255,.55);padding:6px 10px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.06)}
 .intro .name{position:absolute;left:0;right:0;top:57%;text-align:center;font-size:clamp(30px,10vw,52px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase;line-height:1;padding:0 14px;white-space:nowrap;
  background:linear-gradient(180deg,#fff,#b9c0c7);-webkit-background-clip:text;background-clip:text;color:transparent;animation:name .7s 1.15s cubic-bezier(.15,.9,.2,1) both;filter:drop-shadow(0 4px 24px rgba(0,0,0,.9))}
 @keyframes name{from{opacity:0;transform:translateX(60px);letter-spacing:.2em}}
@@ -63,7 +63,7 @@
 @keyframes lock{0%{transform:scale(2.4) rotate(-45deg);opacity:0}70%{transform:scale(.92)}100%{transform:scale(1);opacity:1}}
 .t-war .coord{position:absolute;left:50%;top:calc(40% + 70px);transform:translateX(-50%);font:700 12px var(--mono);color:#ff8a80;letter-spacing:.1em;animation:fadeL .4s 1s both}
 /* MARKETS */
-.t-markets .tape{position:absolute;top:calc(9vh + 44px);left:0;right:0;white-space:nowrap;overflow:hidden;font:700 13px var(--mono);color:#cfd5da;border-block:1px solid rgba(255,255,255,.12);padding:7px 0}
+.t-markets .tape{position:absolute;top:calc(var(--st) + 44px);left:0;right:0;white-space:nowrap;overflow:hidden;font:700 13px var(--mono);color:#cfd5da;border-block:1px solid rgba(255,255,255,.12);padding:7px 0}
 .t-markets .tape span{display:inline-block;animation:tape 6s linear infinite}.tape b.g{color:#30d158}.tape b.r{color:#ff453a}
 @keyframes tape{to{transform:translateX(-50%)}}
 .t-markets .ch{position:absolute;left:0;right:0;top:22%;height:34%;width:100%}
@@ -161,3 +161,55 @@
 .t-general .ping{position:absolute;left:56%;top:28%;width:12px;height:12px;margin:-6px;border-radius:50%;background:#fff;box-shadow:0 0 16px #fff;animation:arr .4s 1s both}
 .t-general .ping::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #fff;animation:ring 1.2s 1.1s ease-out infinite}
 @media(prefers-reduced-motion:reduce){.intro *{animation-duration:.01s!important;animation-iteration-count:1!important}}
+
+/* ===== v3: full-bleed + entity personalisation ===== */
+html.intro-on,html.intro-on body{overflow:hidden}
+html.intro-on .dock,html.intro-on .top{visibility:hidden}
+.intro .stage{top:0;bottom:0;height:100%}
+.intro .etint{position:absolute;inset:0;background:radial-gradient(90% 55% at 50% 30%,color-mix(in srgb,var(--b) 30%,transparent),transparent 70%);animation:inIn 1s both}
+.intro .fbg{position:absolute;inset:-12%;opacity:.2;filter:blur(2px) saturate(1.1);animation:fbg 3.8s ease-out both}
+.intro .fbg img{width:100%;height:100%;object-fit:cover;animation:wave 2.4s ease-in-out infinite alternate}
+@keyframes fbg{from{opacity:0;transform:scale(1.15)}}
+@keyframes wave{0%{transform:skewY(-2deg) scaleX(1.02)}100%{transform:skewY(2deg) scaleX(.98)}}
+.intro .med{position:absolute;left:50%;top:45%;z-index:2;transform:translate(-50%,-50%);animation:medin .7s .75s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes medin{from{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-12deg)}}
+.intro .med.tile{width:86px;height:86px;border-radius:24px;background:#0b0c0f;border:1.5px solid color-mix(in srgb,var(--b) 70%,#fff 10%);display:grid;place-items:center;
+ box-shadow:0 0 0 6px color-mix(in srgb,var(--b) 14%,transparent),0 0 44px color-mix(in srgb,var(--b) 55%,transparent),inset 0 1px 0 rgba(255,255,255,.15)}
+.intro .med.tile::after{content:"";position:absolute;inset:-3px;border-radius:26px;border:2px solid var(--b);opacity:0;animation:ring2 1.4s 1.2s ease-out 2}
+.intro .lg{display:block;width:54px;height:54px}
+.intro .mk{-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.intro .pn{display:grid;place-items:center;background:#fff;border-radius:14px;padding:6px}.intro .pn img{width:100%;height:100%;object-fit:contain}
+.intro .mono{display:grid;place-items:center;font:900 26px/1 var(--sans);color:#fff;background:var(--b,#333);border-radius:14px}
+.intro .med.flag{width:120px;height:90px;border-radius:10px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.2);animation:medin .7s .75s cubic-bezier(.3,1.5,.5,1) both}
+.intro .med.flag img{width:100%;height:100%;object-fit:cover;animation:wave 1.4s ease-in-out infinite alternate}
+.intro .med.flag .shine{position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);animation:sweep 1.6s 1s ease-in-out infinite;transform:translateX(-100%)}
+.intro .med.per{width:92px;height:92px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--b) 55%,#fff 10%),color-mix(in srgb,var(--b) 40%,#000));
+ border:2px solid rgba(255,255,255,.75);box-shadow:0 0 40px color-mix(in srgb,var(--b) 60%,transparent)}
+.intro .med.per span{font:900 34px/1 var(--sans);letter-spacing:-.02em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.intro .med.per .fb{position:absolute;right:-8px;bottom:2px;width:36px;height:27px;border-radius:5px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.6),0 0 0 2px #000}
+.intro .med.per .ob{position:absolute;left:-10px;bottom:0;width:36px;height:36px;border-radius:11px;background:#0b0c0f;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center}
+.intro .med.per .ob .lg{width:22px;height:22px}.intro .med.per .ob .pn{padding:3px;border-radius:8px}.intro .med.per .ob .mono{font-size:11px}
+.intro .med.tl{left:20%;top:calc(var(--st) + 120px);transform:translate(-50%,0);animation-name:medtl}
+@keyframes medtl{from{opacity:0;transform:translate(-50%,0) scale(.3)}}
+.intro .med.tl.tile{width:74px;height:74px}.intro .med.tl .lg{width:44px;height:44px}
+.intro .med.tp{top:15%}.t-election.has-me .tick{display:none}
+.intro.has-me .name{top:59%}
+.intro .cap{position:absolute;left:0;right:0;top:calc(59% + 58px);display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 16px;font:700 12.5px var(--mono);letter-spacing:.04em;color:#c9d0d6;animation:fadeL .5s 1.5s both;z-index:2}
+.intro .cap span{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.intro .cap .tq.g{color:#30d158;border-color:rgba(48,209,88,.4)}.intro .cap .tq.r{color:#ff453a;border-color:rgba(255,69,58,.4)}.intro .cap b{color:#fff}
+.t-markets.has-me .name{top:60%}.t-markets .big{top:45%}
+.t-tech .clogo{position:absolute;inset:14px;display:grid;place-items:center;border-radius:10px;background:radial-gradient(circle,color-mix(in srgb,var(--b,#64d2ff) 30%,#04121a),#04121a);animation:glow .8s ease-in-out infinite alternate}
+.t-tech .clogo .lg{width:58px;height:58px;filter:drop-shadow(0 0 10px var(--b,#64d2ff))}
+.t-tech.has-me .chip{border-color:var(--b);box-shadow:0 0 50px color-mix(in srgb,var(--b) 60%,transparent)}
+.t-tech.has-me .tr{stroke:var(--b)}
+.t-crypto .coin[style*="--cc"] .face{background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--cc) 40%,#fff),var(--cc) 50%,color-mix(in srgb,var(--cc) 55%,#000));border-color:color-mix(in srgb,var(--cc) 60%,#fff);box-shadow:inset 0 0 20px rgba(0,0,0,.35),0 0 50px color-mix(in srgb,var(--cc) 70%,transparent)}
+.t-crypto .face .cl{display:block;width:84px;height:84px}
+.t-crypto.has-me .cg{background:radial-gradient(circle,color-mix(in srgb,var(--b) 45%,transparent),transparent 62%)}
+/* playlist (recap) */
+.intro .plc{position:absolute;z-index:7;left:12px;right:12px;top:calc(var(--st) + 2px);display:flex;align-items:center;gap:10px}
+.intro .segs{flex:1;display:flex;gap:4px}.intro .segs i{position:relative;flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.22);overflow:hidden}
+.intro .segs i b{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}.intro .segs i.done b{transform:none}
+.intro .segs i.cur b{animation:seg var(--dur,3800ms) linear forwards}@keyframes seg{to{transform:scaleX(1)}}
+.intro .plx{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:13px}
+.intro:has(.plc) .bug,.intro:has(.plc) .skip{top:calc(var(--st) + 26px)}
+.intro:has(.plc) .skip{top:auto;bottom:calc(var(--sb) + 2px);right:50%;transform:translateX(50%)}

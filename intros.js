@@ -4,7 +4,21 @@ const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>
 const COL={legal:'#ff3b30',war:'#ff453a',markets:'#30d158',crypto:'#f7931a',election:'#0a84ff',tech:'#64d2ff',sport:'#30d158',disaster:'#ff9f0a',science:'#bf5af2',politics:'#7d7aff',general:'#e7e9ea'};
 const LABEL={legal:'Law & Justice',war:'Conflict',markets:'Markets',crypto:'Crypto',election:'Election',tech:'Tech',sport:'Sport',disaster:'Disaster & Weather',science:'Science',politics:'Politics',general:'World'};
 const KICK={legal:'BREAKING',war:'DEVELOPING',markets:'MARKETS',crypto:'CRYPTO',election:'DECISION DESK',tech:'TECH',sport:'SPORT',disaster:'ALERT',science:'DISCOVERY',politics:'POLITICS',general:'TOP STORY'};
-function nm(s){const e=(s.ents||[]).find(x=>x.split(' ').length>=2)||(s.ents||[])[0]||'';return e.length>26?e.split(' ').slice(0,3).join(' '):e}
+function lum(h){h=(h||'888888').replace('#','');if(h.length<6)return .5;const [r,g,b]=[0,2,4].map(i=>parseInt(h.substr(i,2),16)/255);return .2126*r+.7152*g+.0722*b}
+function ini(n){return String(n||'?').replace(/[^A-Za-z0-9 \-]/g,'').split(/[ \-]+/).filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}
+function logoEl(e,cls,fg){if(e&&e.logo&&e.mono){const c=fg||(lum(e.c)>.22?'#'+e.c:'#fff');return `<i class="${cls} mk" style="-webkit-mask-image:url(${e.logo});mask-image:url(${e.logo});background:${c}"></i>`}
+  if(e&&e.logo)return `<span class="${cls} pn"><img src="${e.logo}" alt=""></span>`;return `<b class="${cls} mono">${E(ini(e&&e.n))}</b>`}
+function fmtP(q){if(!q||q.p==null)return '';const p=q.p>=1000?Math.round(q.p).toLocaleString('en-US'):q.p>=1?q.p.toFixed(2):q.p.toPrecision(3);return ({USD:'$',GBP:'£',GBp:'',EUR:'€',JPY:'¥',HKD:'HK$',KRW:'₩'}[q.cur]??'')+p+(q.cur==='GBp'?'p':'')}
+function cap(s){const m=s.me;if(!m)return '';const q=m.q||(m.org&&m.org.q);let h='';
+  if(m.role)h+=`<span>${E(m.role)}</span>`;
+  if(m.q&&m.t!=='crypto')h+=`<span class="tq ${m.q.ch>=0?'g':'r'}"><b>${E(m.tk)}</b> ${fmtP(m.q)} ${m.q.ch>=0?'▲':'▼'} ${Math.abs(m.q.ch).toFixed(2)}%</span>`;
+  else if(m.t==='company'&&m.tk&&!m.q)h+=`<span class="tq"><b>${E(m.tk)}</b></span>`;
+  return h?`<div class="cap">${h}</div>`:''}
+function med(s,pos){const m=s.me;if(!m)return '';const b='#'+(m.c||'8e8e93');
+  if(m.t==='country')return m.cc?`<div class="med flag ${pos||''}"><img src="assets/flags/${m.cc}.svg" alt=""><i class="shine"></i></div>`:'';
+  if(m.t==='person')return `<div class="med per ${pos||''}" style="--b:${b}"><span>${E(ini(m.n))}</span>${m.cc?`<img class="fb" src="assets/flags/${m.cc}.svg" alt="">`:''}${m.org&&m.org.logo?`<em class="ob">${logoEl(m.org,'lg')}</em>`:''}</div>`;
+  return `<div class="med tile ${pos||''}" style="--b:${b}">${logoEl(m,'lg')}</div>`}
+function nm(s){if(s.me)return s.me.n;const e=(s.ents||[]).find(x=>x.split(' ').length>=2)||(s.ents||[])[0]||'';return e.length>26?e.split(' ').slice(0,3).join(' '):e}
 function stars(n){let o='';for(let i=0;i<n;i++){const x=(i*73.13)%100,y=(i*37.7)%100,d=(i%7)*.15;o+=`<i style="left:${x}%;top:${y}%;animation-delay:${d}s"></i>`}return o}
 const T={};
 T.legal=s=>{const st=(s.p&&s.p.stamp)||'BREAKING';return `
@@ -24,18 +38,18 @@ T.war=s=>`<div class="map"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidY
 <div class="radar"></div><div class="xh"><i></i></div><div class="coord">${(30+((s.id||'a').charCodeAt(0)%30))}.${(s.id||'1234').charCodeAt(1)%99}°N · ${(20+((s.id||'b').charCodeAt(2)%40))}.${(s.id||'1234').charCodeAt(3)%99}°E</div>
 <div class="name">${E(nm(s))}</div>`;
 function chartPath(up){let p=[],y=up?200:70;for(let i=0;i<=30;i++){const x=10+i*12.6;y+=(up?-1:1)*(4+Math.sin(i*1.7)*9)+(i>20?(up?-6:7):0);y=Math.max(18,Math.min(250,y));p.push((i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1))}return p.join('')}
-T.markets=s=>{const up=!s.p||s.p.dir!=='down';const pct=(s.p&&s.p.pct)||'';return `<div class="tape"><span>${['FTSE 100','S&P 500','NASDAQ','DOW','DAX','NIKKEI','GOLD','BRENT','GBP/USD','10Y'].map((t,i)=>`${t} <b class="${(i+(up?0:1))%3?'g':'r'}">${(i%3?'+':'-')}${(0.2+(i*0.37)%1.8).toFixed(2)}%</b>`).join(' · ').repeat(2)}</span></div>
+T.markets=s=>{const q=s.me&&(s.me.q||(s.me.org&&s.me.org.q));const up=q&&!(s.p&&s.p.pct)?q.ch>=0:(!s.p||s.p.dir!=='down');const pct=(s.p&&s.p.pct)||(q?Math.abs(q.ch).toFixed(2):'');return `${med(s,'tl')}<div class="tape"><span>${q?`<b class="${q.ch>=0?'g':'r'}">${E(s.me.tk||(s.me.org&&s.me.org.tk))} ${fmtP(q)} ${q.ch>=0?'+':''}${q.ch.toFixed(2)}%</b> · `:''}${['FTSE 100','S&P 500','NASDAQ','DOW','DAX','NIKKEI','GOLD','BRENT','GBP/USD','10Y'].map((t,i)=>`${t} <b class="${(i+(up?0:1))%3?'g':'r'}">${(i%3?'+':'-')}${(0.2+(i*0.37)%1.8).toFixed(2)}%</b>`).join(' · ').repeat(2)}</span></div>
 <svg class="ch ${up?'up':'dn'}" viewBox="0 0 400 270" preserveAspectRatio="none"><defs><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${up?'#30d158':'#ff453a'}" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient></defs>
 <g stroke="rgba(255,255,255,.07)">${[50,100,150,200,250].map(y=>`<path d="M0 ${y}H400"/>`).join('')}</g><path class="ln" d="${chartPath(up)}" fill="none" stroke="${up?'#30d158':'#ff453a'}" stroke-width="3.2" stroke-linejoin="round"/></svg>
 <div class="arrow ${up?'up':'dn'}">${up?'▲':'▼'}</div><div class="big ${up?'up':'dn'}" data-count="${E(pct)}">${pct?(up?'+':'−')+'0.0%':(up?'RALLY':'SELL-OFF')}</div><div class="name">${E(nm(s))}</div>`};
-T.crypto=(s,ctx)=>{const t=(s.title+' '+(s.kw||[]).join(' ')).toLowerCase();const coin=/ether|\beth\b/.test(t)?'ethereum':/solana|\bsol\b/.test(t)?'solana':'bitcoin';
- const sym={bitcoin:'₿',ethereum:'Ξ',solana:'◎'}[coin];const pr=ctx&&ctx.prices&&ctx.prices[coin];const price=pr?Math.round(pr.usd):0;const ch=pr?pr.usd_24h_change:0;
- return `<div class="cg"></div><div class="coin"><div class="face">${sym}</div><div class="face back">${sym}</div></div><div class="sparks">${stars(18)}</div>
- <div class="price" data-to="${price}">${price?'$0':'CRYPTO'}</div>${pr?`<div class="chg ${ch>=0?'g':'r'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(2)}% 24h · ${coin.toUpperCase()}</div>`:''}<div class="name">${E(nm(s))}</div>`};
+T.crypto=(s,ctx)=>{const t=(s.title+' '+(s.kw||[]).join(' ')).toLowerCase();const cm=s.me&&s.me.t==='crypto'?s.me:null;const coin=cm?cm.tk:/ether|\beth\b/.test(t)?'ethereum':/solana|\bsol\b/.test(t)?'solana':'bitcoin';
+ const sym=cm&&cm.logo&&cm.mono?logoEl(cm,'cl','#fff'):({bitcoin:'₿',ethereum:'Ξ',solana:'◎'}[coin]||E(ini(cm?cm.n:'?')));const pr=(cm&&cm.q)?{usd:cm.q.p,usd_24h_change:cm.q.ch}:ctx&&ctx.prices&&ctx.prices[coin];const price=pr?Math.round(pr.usd):0;const ch=pr?pr.usd_24h_change:0;
+ return `<div class="cg"></div><div class="coin" style="${cm?`--cc:#${cm.c}`:''}"><div class="face">${sym}</div><div class="face back">${sym}</div></div><div class="sparks">${stars(18)}</div>
+ <div class="price" data-to="${price}" data-dec="${pr&&pr.usd<10?1:0}" data-raw="${pr?pr.usd:0}">${price?'$0':'CRYPTO'}</div>${pr?`<div class="chg ${ch>=0?'g':'r'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(2)}% 24h · ${E(cm?cm.n.toUpperCase():coin.toUpperCase())}</div>`:''}<div class="name">${E(nm(s))}</div>`};
 T.election=s=>`<div class="stars">${stars(26)}</div><div class="bars"><div class="bar a"><b></b><span class="cnt" data-to="${270+((s.id||'x').charCodeAt(0)%60)}">0</span></div><div class="bar b"><b></b><span class="cnt" data-to="${180+((s.id||'x').charCodeAt(1)%70)}">0</span></div></div>
 <div class="box"><div class="slot"></div><i class="bal b1"></i><i class="bal b2"></i><i class="bal b3"></i></div><div class="tick">✓</div><div class="name">${E(nm(s))}</div>`;
 T.tech=s=>`<svg class="circ" viewBox="0 0 400 400"><g fill="none" stroke="#64d2ff" stroke-width="2">${[[0,80,120,80,150,130],[0,320,110,320,150,270],[400,100,290,100,250,140],[400,300,300,300,250,260],[200,0,200,140],[200,400,200,260],[60,0,60,60,150,150],[340,400,340,340,250,250]].map(p=>`<path class="tr" d="M${p[0]} ${p[1]}${p.slice(2).reduce((a,v,i)=>a+(i%2?' '+v:' L'+v),'')}"/>`).join('')}</g></svg>
-<div class="chip"><div class="core"></div></div><div class="scan"></div><div class="name gl" data-t="${E(nm(s))}">${E(nm(s))}</div>`;
+<div class="chip">${s.me&&s.me.t!=='country'&&s.me.t!=='person'?`<div class="clogo">${logoEl(s.me,'lg')}</div>`:s.me&&s.me.org?`<div class="clogo">${logoEl(s.me.org,'lg')}</div>`:'<div class="core"></div>'}</div><div class="scan"></div><div class="name gl" data-t="${E(nm(s))}">${E(nm(s))}</div>`;
 T.sport=s=>`<div class="flood l"></div><div class="flood r"></div><div class="pitch"><i></i></div><div class="ball"></div>
 <div class="board"><span class="fl">${E((nm(s).split(' ')[0]||'LIVE').slice(0,12).toUpperCase())}</span><span class="fl" style="animation-delay:1.1s">LIVE</span><b class="fl d2">FT</b></div><div class="name">${E(nm(s))}</div>`;
 T.disaster=s=>{const t=(s.title+' '+(s.kw||[]).join(' ')).toLowerCase();const k=/quake|seism/.test(t)?'quake':/storm|hurricane|typhoon|cyclone|rain|flood|tornado|wind/.test(t)?'storm':/fire|blaze|heat/.test(t)?'fire':'alert';
@@ -53,20 +67,26 @@ function countUp(el,to,dur,fmt){const t0=performance.now();(function f(n){const 
 
 window.playIntro=function(story,ctx,opts){
   opts=opts||{};const t=T[story.topic]?story.topic:'general';
-  const el=document.createElement('div');el.className='intro t-'+t+(story.p&&story.p.dir==='down'?' dn':'');el.style.setProperty('--ac',COL[t]);
-  el.innerHTML=`<div class="stage">${T[t](story,ctx)}</div><div class="vig"></div><div class="lb top"></div><div class="lb bot"></div>
+  const el=document.createElement('div');const m=story.me;const mq=m&&(m.q||(m.org&&m.org.q));
+  const dn=(t==='markets'&&mq&&!(story.p&&story.p.pct))?mq.ch<0:(story.p&&story.p.dir==='down');
+  el.className='intro t-'+t+(dn?' dn':'')+(m?' has-me me-'+m.t:'');el.style.setProperty('--ac',COL[t]);if(m&&m.c)el.style.setProperty('--b','#'+m.c);
+  const integ=(t==='tech'&&m&&m.t!=='country'&&(m.t!=='person'||m.org))||(t==='crypto'&&m&&m.t==='crypto')||t==='markets';
+  const pl=opts.pl;
+  el.innerHTML=`${m&&m.t==='country'&&m.cc?`<div class="fbg"><img src="assets/flags/${m.cc}.svg" alt=""></div>`:''}${m&&m.t!=='country'?'<div class="etint"></div>':''}<div class="stage">${T[t](story,ctx)}${integ?'':med(story,t==='election'?'tp':'')}</div><div class="vig"></div>
+  ${pl?`<div class="plc"><div class="segs">${Array.from({length:pl.n},(_,i)=>`<i class="${i<pl.i?'done':i===pl.i?'cur':''}"><b></b></i>`).join('')}</div><button class="plx" aria-label="Stop">✕</button></div>`:''}
   <div class="bug"><i></i>NEWS REEL <span>· ${E(LABEL[t])}</span></div>
   <div class="l3"><div class="kick">${story.brk?'BREAKING NEWS':KICK[t]}</div><div class="hl">${E(story.title)}</div><div class="src">${E((story.srcs||[]).slice(0,3).map(x=>x.src).join(' · '))}</div></div>
-  <div class="sweep"></div><div class="skip">Tap to skip</div>`;
-  document.body.appendChild(el);
+  <div class="sweep"></div><div class="skip">${pl?`${pl.i+1} / ${pl.n} · Tap for next`:'Tap to skip'}</div>`;
+  const nmE=el.querySelector('.stage .name');if(nmE)nmE.insertAdjacentHTML('afterend',cap(story));
+  document.documentElement.classList.add('intro-on');document.body.appendChild(el);
   const nmEl=el.querySelector('.name');if(nmEl){nmEl.style.animation='none';let fs=parseFloat(getComputedStyle(nmEl).fontSize);while(nmEl.scrollWidth>nmEl.clientWidth+1&&fs>18){fs-=2;nmEl.style.fontSize=fs+'px'}void nmEl.offsetWidth;nmEl.style.animation=''}
-  const D=opts.dur||3600;
+  const D=opts.dur||3800;el.style.setProperty('--dur',D+'ms');
   // counters
-  setTimeout(()=>{el.querySelectorAll('[data-to]').forEach(c=>{const to=+c.dataset.to;if(!to)return;const money=c.classList.contains('price');countUp(c,to,1300,v=>money?'$'+Math.round(v).toLocaleString('en-US'):Math.round(v).toLocaleString('en-US'))});
+  setTimeout(()=>{el.querySelectorAll('[data-to]').forEach(c=>{const to=+c.dataset.to;if(!to)return;const money=c.classList.contains('price');const dec=+c.dataset.dec||0;countUp(c,to,1300,v=>money?'$'+(dec?v.toFixed(v<1?4:2):Math.round(v).toLocaleString('en-US')):Math.round(v).toLocaleString('en-US'))});
     const b=el.querySelector('.big[data-count]');if(b&&b.dataset.count){const up=!el.classList.contains('dn');countUp(b,+b.dataset.count,1100,v=>(up?'+':'−')+v.toFixed(1)+'%')}},650);
-  if(navigator.vibrate&&t==='legal')setTimeout(()=>navigator.vibrate(30),1150);
-  return new Promise(res=>{let done=false;const end=()=>{if(done)return;done=true;el.classList.add('out');setTimeout(()=>{el.remove();res()},380)};
-    el.addEventListener('click',end);setTimeout(end,D)});
+  if(navigator.vibrate&&t==='legal'&&navigator.userActivation&&navigator.userActivation.hasBeenActive)setTimeout(()=>navigator.vibrate(30),1150);
+  return new Promise(res=>{let done=false;const end=why=>{if(done)return;done=true;el.classList.add('out');setTimeout(()=>{el.remove();if(!document.querySelector('.intro'))document.documentElement.classList.remove('intro-on');res(why||'next')},pl?260:380)};
+    el.addEventListener('click',e=>end(e.target.closest('.plx')?'stop':'next'));setTimeout(()=>end('next'),D)});
 };
 window.INTRO_META={COL,LABEL};
 })();

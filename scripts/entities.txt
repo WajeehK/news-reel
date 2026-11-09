@@ -1,0 +1,435 @@
+# type|id|Name|keywords (comma; ALLCAPS = case-sensitive)|colour|simple-icons slug|domain|ticker|country|role|org
+# ---- companies ----
+company|nvidia|Nvidia|nvidia|76B900|nvidia|nvidia.com|NVDA|us||
+company|apple|Apple|apple,iphone,ipad,tim cook|A2AAAD|apple|apple.com|AAPL|us||
+company|tesla|Tesla|tesla,cybertruck|E82127|tesla|tesla.com|TSLA|us||
+company|microsoft|Microsoft|microsoft,windows 11,xbox,satya nadella|00A4EF|microsoft|microsoft.com|MSFT|us||
+company|google|Google|google,alphabet,sundar pichai,gemini ai,waymo|4285F4|google|google.com|GOOGL|us||
+company|youtube|YouTube|youtube|FF0000|youtube|youtube.com|GOOGL|us||
+company|meta|Meta|meta,facebook,instagram,whatsapp,threads app|0866FF|meta|meta.com|META|us||
+company|amazon|Amazon|amazon,aws,prime video|FF9900|amazon|amazon.com|AMZN|us||
+company|openai|OpenAI|openai,chatgpt,gpt-5,sora|10A37F|openai|openai.com||us||
+company|anthropic|Anthropic|anthropic,claude ai|D97757|anthropic|anthropic.com||us||
+company|xai|xAI|xai,grok|FFFFFF|x|x.ai||us||
+company|spacex|SpaceX|spacex,starship,starlink|005288|spacex|spacex.com||us||
+company|x|X|twitter,x corp,x.com|FFFFFF|x|x.com||us||
+company|netflix|Netflix|netflix|E50914|netflix|netflix.com|NFLX|us||
+company|disney|Disney|disney,pixar,marvel studios|113CCF||disney.com|DIS|us||
+company|intel|Intel|intel|0071C5|intel|intel.com|INTC|us||
+company|amd|AMD|AMD|ED1C24|amd|amd.com|AMD|us||
+company|tsmc|TSMC|tsmc,taiwan semiconductor|CC0000|tsmc|tsmc.com|TSM|tw||
+company|samsung|Samsung|samsung|1428A0|samsung|samsung.com|005930.KS|kr||
+company|sony|Sony|sony,playstation|FFFFFF|sony|sony.com|SONY|jp||
+company|qualcomm|Qualcomm|qualcomm|3253DC|qualcomm|qualcomm.com|QCOM|us||
+company|arm|Arm|arm holdings|0091BD|arm|arm.com|ARM|gb||
+company|broadcom|Broadcom|broadcom|CC092F|broadcom|broadcom.com|AVGO|us||
+company|ibm|IBM|IBM|0F62FE|ibm|ibm.com|IBM|us||
+company|oracle|Oracle|oracle,larry ellison|F80000|oracle|oracle.com|ORCL|us||
+company|salesforce|Salesforce|salesforce|00A1E0|salesforce|salesforce.com|CRM|us||
+company|adobe|Adobe|adobe|FF0000|adobe|adobe.com|ADBE|us||
+company|uber|Uber|uber|FFFFFF|uber|uber.com|UBER|us||
+company|airbnb|Airbnb|airbnb|FF5A5F|airbnb|airbnb.com|ABNB|us||
+company|spotify|Spotify|spotify|1DB954|spotify|spotify.com|SPOT|se||
+company|paypal|PayPal|paypal|003087|paypal|paypal.com|PYPL|us||
+company|visa|Visa|visa inc,visa card|1A1F71|visa|visa.com|V|us||
+company|mastercard|Mastercard|mastercard|EB001B|mastercard|mastercard.com|MA|us||
+company|jpmorgan|JPMorgan|jpmorgan,jp morgan,jamie dimon|0B3B6F|jpmorgan|jpmorganchase.com|JPM|us||
+company|goldman|Goldman Sachs|goldman sachs|6E9BD1|goldmansachs|goldmansachs.com|GS|us||
+company|morganstanley|Morgan Stanley|morgan stanley|1C5BA8||morganstanley.com|MS|us||
+company|bofa|Bank of America|bank of america|E31837|bankofamerica|bankofamerica.com|BAC|us||
+company|hsbc|HSBC|HSBC|DB0011|hsbc|hsbc.com|HSBA.L|gb||
+company|barclays|Barclays|barclays|00AEEF|barclays|barclays.co.uk|BARC.L|gb||
+company|lloyds|Lloyds|lloyds bank,lloyds banking|006A4D||lloydsbank.com|LLOY.L|gb||
+company|natwest|NatWest|natwest|5A287D||natwest.com|NWG.L|gb||
+company|bp|BP|BP|009900||bp.com|BP.L|gb||
+company|shell|Shell|shell plc,shell oil|FBCE07|shell|shell.com|SHEL.L|gb||
+company|exxon|ExxonMobil|exxon,exxonmobil|ED1B2F||exxonmobil.com|XOM|us||
+company|chevron|Chevron|chevron|0054A4|chevron|chevron.com|CVX|us||
+company|boeing|Boeing|boeing|1D439C|boeing|boeing.com|BA|us||
+company|airbus|Airbus|airbus|00205B|airbus|airbus.com|AIR.PA|fr||
+company|ford|Ford|ford motor,ford's|1F3B73|ford|ford.com|F|us||
+company|gm|General Motors|general motors|0170CE|generalmotors|gm.com|GM|us||
+company|toyota|Toyota|toyota|EB0A1E|toyota|toyota.com|TM|jp||
+company|volkswagen|Volkswagen|volkswagen,vw group|151F5D|volkswagen|vw.com|VOW3.DE|de||
+company|bmw|BMW|BMW|0066B1|bmw|bmw.com|BMW.DE|de||
+company|mercedesbenz|Mercedes-Benz|mercedes-benz|FFFFFF|mercedes|mercedes-benz.com|MBG.DE|de||
+company|stellantis|Stellantis|stellantis,jeep|243782||stellantis.com|STLA|nl||
+company|byd|BYD|BYD|C00000|byd|byd.com|1211.HK|cn||
+company|nissan|Nissan|nissan|C3002F|nissan|nissan-global.com|7201.T|jp||
+company|honda|Honda|honda|E40521|honda|honda.com|HMC|jp||
+company|jlr|Jaguar Land Rover|jaguar land rover,jlr|005A2B|landrover|jaguarlandrover.com||gb||
+company|walmart|Walmart|walmart|0071CE|walmart|walmart.com|WMT|us||
+company|costco|Costco|costco|E31837||costco.com|COST|us||
+company|mcdonalds|McDonald's|mcdonald's,mcdonalds|FFC72C|mcdonalds|mcdonalds.com|MCD|us||
+company|starbucks|Starbucks|starbucks|006241|starbucks|starbucks.com|SBUX|us||
+company|cocacola|Coca-Cola|coca-cola,coke|F40009|cocacola|coca-cola.com|KO|us||
+company|pepsico|PepsiCo|pepsi,pepsico|004B93|pepsi|pepsico.com|PEP|us||
+company|nike|Nike|nike|FFFFFF|nike|nike.com|NKE|us||
+company|adidas|Adidas|adidas|FFFFFF|adidas|adidas.com|ADS.DE|de||
+company|pfizer|Pfizer|pfizer|0093D0|pfizer|pfizer.com|PFE|us||
+company|moderna|Moderna|moderna|E31837||modernatx.com|MRNA|us||
+company|lilly|Eli Lilly|eli lilly,lilly's|D52B1E||lilly.com|LLY|us||
+company|novonordisk|Novo Nordisk|novo nordisk,ozempic,wegovy|001965||novonordisk.com|NVO|dk||
+company|astrazeneca|AstraZeneca|astrazeneca|830051|astrazeneca|astrazeneca.com|AZN.L|gb||
+company|gsk|GSK|GSK|F36633||gsk.com|GSK.L|gb||
+company|jnj|Johnson & Johnson|johnson & johnson|D51900||jnj.com|JNJ|us||
+company|unilever|Unilever|unilever|1F36C7|unilever|unilever.com|ULVR.L|gb||
+company|tesco|Tesco|tesco|00539F|tesco|tesco.com|TSCO.L|gb||
+company|sainsburys|Sainsbury's|sainsbury's,sainsburys|F06C00|sainsburys|sainsburys.co.uk|SBRY.L|gb||
+company|rollsroyce|Rolls-Royce|rolls-royce|10069F|rollsroyce|rolls-royce.com|RR.L|gb||
+company|bae|BAE Systems|bae systems|E4002B||baesystems.com|BA.L|gb||
+company|lockheed|Lockheed Martin|lockheed martin,lockheed|00519B|lockheedmartin|lockheedmartin.com|LMT|us||
+company|palantir|Palantir|palantir|FFFFFF|palantir|palantir.com|PLTR|us||
+company|coinbase|Coinbase|coinbase|0052FF|coinbase|coinbase.com|COIN|us||
+company|binance|Binance|binance,changpeng zhao|F0B90B|binance|binance.com||||
+company|blackrock|BlackRock|blackrock,larry fink|FFFFFF||blackrock.com|BLK|us||
+company|berkshire|Berkshire Hathaway|berkshire hathaway,warren buffett|1F3F7A||berkshirehathaway.com|BRK-B|us||
+company|alibaba|Alibaba|alibaba|FF6A00|alibabadotcom|alibaba.com|BABA|cn||
+company|tencent|Tencent|tencent,wechat|1DA1F2|tencentqq|tencent.com|0700.HK|cn||
+company|huawei|Huawei|huawei|FF0000|huawei|huawei.com||cn||
+company|tiktok|TikTok|tiktok,bytedance|FE2C55|tiktok|tiktok.com||cn||
+company|xiaomi|Xiaomi|xiaomi|FF6900|xiaomi|mi.com|1810.HK|cn||
+company|deepseek|DeepSeek|deepseek|4D6BFE||deepseek.com||cn||
+company|baidu|Baidu|baidu|2932E1|baidu|baidu.com|BIDU|cn||
+company|pdd|Temu|temu,pdd holdings|FB7701|temu|temu.com|PDD|cn||
+company|shein|Shein|shein|FFFFFF|shein|shein.com||cn||
+company|nintendo|Nintendo|nintendo|E60012|nintendo|nintendo.com|7974.T|jp||
+company|roblox|Roblox|roblox|FFFFFF|roblox|roblox.com|RBLX|us||
+company|reddit|Reddit|reddit|FF4500|reddit|reddit.com|RDDT|us||
+company|snap|Snap|snapchat|FFFC00|snapchat|snap.com|SNAP|us||
+company|shopify|Shopify|shopify|7AB55C|shopify|shopify.com|SHOP|ca||
+company|ebay|eBay|ebay|E53238|ebay|ebay.com|EBAY|us||
+company|cisco|Cisco|cisco|1BA0D7|cisco|cisco.com|CSCO|us||
+company|dell|Dell|dell technologies,dell's|007DB8|dell|dell.com|DELL|us||
+company|micron|Micron|micron|0066B3|micron|micron.com|MU|us||
+company|asml|ASML|ASML|10069F||asml.com|ASML|nl||
+company|softbank|SoftBank|softbank,masayoshi son|C0C0C0|softbank|softbank.jp|9984.T|jp||
+company|mistral|Mistral AI|mistral ai|FA520F|mistralai|mistral.ai||fr||
+company|perplexity|Perplexity|perplexity|20808D|perplexity|perplexity.ai||us||
+company|telegram|Telegram|telegram,pavel durov|26A5E4|telegram|telegram.org||||
+company|strategy|Strategy|microstrategy,michael saylor,saylor|F7931A||strategy.com|MSTR|us||
+company|robinhood|Robinhood|robinhood|CCFF00|robinhood|robinhood.com|HOOD|us||
+company|gamestop|GameStop|gamestop|E31837||gamestop.com|GME|us||
+company|wbd|Warner Bros|warner bros|004DB4|warnerbros|wbd.com|WBD|us||
+company|paramount|Paramount|paramount|0064FF|paramountplus|paramount.com|PARA|us||
+company|comcast|Comcast|comcast|FFFFFF|comcast|comcast.com|CMCSA|us||
+company|verizon|Verizon|verizon|CD040B|verizon|verizon.com|VZ|us||
+company|att|AT&T|at&t|00A8E0|atandt|att.com|T|us||
+company|vodafone|Vodafone|vodafone|E60000|vodafone|vodafone.com|VOD.L|gb||
+company|bt|BT|BT group,openreach|5514B4||bt.com|BT-A.L|gb||
+company|ryanair|Ryanair|ryanair|073590|ryanair|ryanair.com|RYAAY|ie||
+company|easyjet|easyJet|easyjet|FF6600|easyjet|easyjet.com|EZJ.L|gb||
+company|britishairways|British Airways|british airways|2E5C99|britishairways|britishairways.com|IAG.L|gb||
+company|delta|Delta|delta air lines,delta airlines|C01933|delta|delta.com|DAL|us||
+company|united|United Airlines|united airlines|005DAA|unitedairlines|united.com|UAL|us||
+company|fedex|FedEx|fedex|4D148C|fedex|fedex.com|FDX|us||
+company|ups|UPS|UPS|FFB500|ups|ups.com|UPS|us||
+company|unitedhealth|UnitedHealth|unitedhealth|002677||unitedhealthgroup.com|UNH|us||
+company|smci|Super Micro|super micro,supermicro|0B6AA8||supermicro.com|SMCI|us||
+company|coreweave|CoreWeave|coreweave|2741E7||coreweave.com|CRWV|us||
+company|thameswater|Thames Water|thames water|0079C1||thameswater.co.uk||gb||
+company|royalmail|Royal Mail|royal mail|DA202A||royalmail.com||gb||
+company|postoffice|Post Office|post office|E30613||postoffice.co.uk||gb||
+company|wpp|WPP|WPP|FFFFFF||wpp.com|WPP.L|gb||
+company|circle|Circle|circle internet,usdc|3D73FF||circle.com|CRCL|us||
+company|hyundai|Hyundai|hyundai|002C5F|hyundai|hyundai.com|005380.KS|kr||
+company|lvmh|LVMH|LVMH,louis vuitton|FFFFFF|louisvuitton|lvmh.com|MC.PA|fr||
+company|nestle|Nestlé|nestle,nestlé|FFFFFF|nestle|nestle.com|NESN.SW|ch||
+company|siemens|Siemens|siemens|009999|siemens|siemens.com|SIE.DE|de||
+company|ferrari|Ferrari|ferrari|DA291C|ferrari|ferrari.com|RACE|it||
+company|redbull|Red Bull|red bull|DB0A40|redbull|redbull.com||at||
+# ---- crypto ----
+crypto|bitcoin|Bitcoin|bitcoin,BTC|F7931A|bitcoin|bitcoin.org|bitcoin|||
+crypto|ethereum|Ethereum|ethereum,ether,ETH|8C8CFF|ethereum|ethereum.org|ethereum|||
+crypto|solana|Solana|solana,SOL|9945FF|solana|solana.com|solana|||
+crypto|xrp|XRP|XRP,ripple|FFFFFF|ripple|ripple.com|ripple|||
+crypto|dogecoin|Dogecoin|dogecoin,DOGE|C2A633|dogecoin|dogecoin.com|dogecoin|||
+crypto|cardano|Cardano|cardano,ADA|0033AD|cardano|cardano.org|cardano|||
+crypto|bnb|BNB|BNB|F0B90B|bnbchain|bnbchain.org|binancecoin|||
+crypto|tron|Tron|tron,TRX|FF0013|tron|tron.network|tron|||
+crypto|toncoin|Toncoin|toncoin,TON|0098EA|ton|ton.org|the-open-network|||
+crypto|chainlink|Chainlink|chainlink,LINK|375BD2|chainlink|chain.link|chainlink|||
+crypto|avalanche|Avalanche|avalanche,AVAX|E84142||avax.network|avalanche-2|||
+crypto|polkadot|Polkadot|polkadot,DOT|E6007A|polkadot|polkadot.network|polkadot|||
+crypto|litecoin|Litecoin|litecoin,LTC|A6A9AA|litecoin|litecoin.org|litecoin|||
+crypto|shib|Shiba Inu|shiba inu,SHIB|FFA409||shibatoken.com|shiba-inu|||
+crypto|pepe|Pepe|pepecoin,PEPE|3D8130||pepe.vip|pepe|||
+crypto|sui|Sui|SUI|4DA2FF|sui|sui.io|sui|||
+crypto|tether|Tether|tether,USDT|50AF95|tether|tether.to|tether|||
+crypto|monero|Monero|monero,XMR|FF6600|monero|getmonero.org|monero|||
+crypto|hyperliquid|Hyperliquid|hyperliquid,HYPE|97FCE4||hyperliquid.xyz|hyperliquid|||
+crypto|trumpcoin|$TRUMP|trump coin,trump memecoin,$TRUMP|F7C548||gettrumpmemes.com|official-trump|||
+# ---- sport ----
+sport|premierleague|Premier League|premier league|FFFFFF|premierleague|premierleague.com||gb||
+sport|ucl|Champions League|champions league|0E1E5B|uefa|uefa.com||||
+sport|uefa|UEFA|UEFA,euro 2028|0E1E5B|uefa|uefa.com||||
+sport|fifa|FIFA|FIFA,world cup|326295|fifa|fifa.com||||
+sport|nfl|NFL|NFL,super bowl|013369|nfl|nfl.com||us||
+sport|nba|NBA|NBA|C9082A|nba|nba.com||us||
+sport|mlb|MLB|MLB,world series|041E42|mlb|mlb.com||us||
+sport|nhl|NHL|NHL,stanley cup|FFFFFF|nhl|nhl.com||us||
+sport|f1|Formula 1|formula one,formula 1,F1,grand prix|E10600|f1|formula1.com||||
+sport|ufc|UFC|UFC|D20A0A|ufc|ufc.com||us||
+sport|olympics|Olympics|olympic,olympics|0081C8|olympicgames|olympics.com||||
+sport|wimbledon|Wimbledon|wimbledon|006633||wimbledon.com||gb||
+sport|ipl|IPL|IPL|19398A||iplt20.com||in||
+sport|englandcricket|England Cricket|ashes,england cricket|1D3E7E||ecb.co.uk||gb||
+sport|ncaa|College Football|college football,ncaa|009CDE||ncaa.com||us||
+sport|arsenal|Arsenal|arsenal|EF0107||arsenal.com||gb||
+sport|chelsea|Chelsea|chelsea|034694||chelseafc.com||gb||
+sport|liverpool|Liverpool FC|liverpool fc,anfield,arne slot|C8102E||liverpoolfc.com||gb||
+sport|mancity|Man City|man city,manchester city,guardiola|6CABDD||mancity.com||gb||
+sport|manutd|Man Utd|man utd,man united,manchester united,old trafford|DA291C||manutd.com||gb||
+sport|spurs|Tottenham|tottenham,spurs|FFFFFF||tottenhamhotspur.com||gb||
+sport|newcastle|Newcastle|newcastle united|FFFFFF||nufc.co.uk||gb||
+sport|villa|Aston Villa|aston villa|95BFE5||avfc.co.uk||gb||
+sport|westham|West Ham|west ham|7A263A||whufc.com||gb||
+sport|everton|Everton|everton|003399||evertonfc.com||gb||
+sport|realmadrid|Real Madrid|real madrid|FEBE10||realmadrid.com||es||
+sport|barcelona|Barcelona|barcelona,barca|A50044||fcbarcelona.com||es||
+sport|bayern|Bayern Munich|bayern munich,bayern|DC052D||fcbayern.com||de||
+sport|psg|PSG|PSG,paris saint-germain|004170||psg.fr||fr||
+sport|juventus|Juventus|juventus|FFFFFF||juventus.com||it||
+sport|inter|Inter Milan|inter milan|0068A8||inter.it||it||
+sport|acmilan|AC Milan|ac milan|FB090B||acmilan.com||it||
+sport|celtic|Celtic|celtic|018749||celticfc.com||gb||
+sport|rangers|Rangers|rangers fc|1B458F||rangers.co.uk||gb||
+sport|chiefs|Chiefs|kansas city chiefs,chiefs|E31837||chiefs.com||us||
+sport|eagles|Eagles|philadelphia eagles|004C54||philadelphiaeagles.com||us||
+sport|cowboys|Cowboys|dallas cowboys|869397||dallascowboys.com||us||
+sport|lakers|Lakers|lakers|FDB927||||us||
+sport|celtics|Celtics|boston celtics|007A33||||us||
+sport|warriors|Warriors|golden state warriors|1D428A||||us||
+sport|knicks|Knicks|knicks|F58426||||us||
+sport|yankees|Yankees|yankees|0C2340||||us||
+sport|dodgers|Dodgers|dodgers|005A9C||||us||
+# ---- organisations ----
+org|nato|NATO|NATO|004990||nato.int||||
+org|un|United Nations|united nations,UN,security council,guterres|009EDB|unitednations|un.org||||
+org|eu|European Union|european union,EU,brussels,european commission|003399|europeanunion|europa.eu||eu||
+org|who|WHO|world health organization,WHO|009ADE|who|who.int||||
+org|imf|IMF|IMF,international monetary fund|004C97||imf.org||||
+org|fed|Federal Reserve|federal reserve,the fed,fed's,jerome powell|1A3C6E||federalreserve.gov||us|Central bank|
+org|boe|Bank of England|bank of england,andrew bailey|8B1E3F||bankofengland.co.uk||gb|Central bank|
+org|ecb|ECB|european central bank,ECB,lagarde|003299||ecb.europa.eu||eu|Central bank|
+org|fbi|FBI|FBI,kash patel|0A2F5C||fbi.gov||us|Federal Bureau of Investigation|
+org|cia|CIA|CIA|0A2F5C||cia.gov||us|Central Intelligence Agency|
+org|doj|Justice Department|justice department,department of justice,DOJ,pam bondi|0A2F5C||justice.gov||us||
+org|scotus|Supreme Court|supreme court|8C6D3F||supremecourt.gov||us||
+org|whitehouse|White House|white house|FFFFFF||whitehouse.gov||us||
+org|pentagon|Pentagon|pentagon,department of defense,department of war|0A2F5C||defense.gov||us||
+org|congress|Congress|congress,capitol hill,house of representatives|0A2F5C||congress.gov||us||
+org|nhs|NHS|NHS|005EB8|nhs|nhs.uk||gb||
+org|metpolice|Met Police|met police,metropolitan police,scotland yard|0B2D6F||met.police.uk||gb||
+org|nasa|NASA|NASA,artemis|E03C31|nasa|nasa.gov||us||
+org|esa|ESA|european space agency,ESA|003247|esa|esa.int||eu||
+org|opec|OPEC|OPEC|0E6BB5||opec.org||||
+org|iaea|IAEA|IAEA,atomic energy agency|0A6EB4||iaea.org||||
+org|icc|ICC|international criminal court|204F8C||icc-cpi.int||||
+org|redcross|Red Cross|red cross,icrc|ED1B2E||icrc.org||||
+org|wto|WTO|world trade organization,WTO|0A5DA8||wto.org||||
+org|g7|G7|G7|FFFFFF||g7.utoronto.ca||||
+org|g20|G20|G20|FFFFFF||g20.org||||
+org|hamas|Hamas|hamas|2E7D32||||ps||
+org|hezbollah|Hezbollah|hezbollah|F2C300||||lb||
+org|houthis|Houthis|houthi,houthis|2E7D32||||ye||
+org|isis|Islamic State|islamic state,ISIS|333333||||||
+org|labour|Labour|labour party,labour's,labour government|E4003B||labour.org.uk||gb|UK governing party|
+org|tories|Conservatives|conservative party,tories,tory|0087DC||conservatives.com||gb||
+org|reform|Reform UK|reform uk|12B6CF||reformparty.uk||gb||
+org|libdems|Lib Dems|lib dems,liberal democrats|FAA61A||libdems.org.uk||gb||
+org|snp|SNP|SNP|FDF38E||snp.org||gb||
+org|gop|Republicans|republicans,republican party,GOP|E81B23||gop.com||us||
+org|dems|Democrats|democrats,democratic party|0015BC||democrats.org||us||
+org|ofcom|Ofcom|ofcom|6D2077||ofcom.org.uk||gb||
+org|sec|SEC|SEC,securities and exchange commission|0A2F5C||sec.gov||us||
+org|ftc|FTC|FTC,federal trade commission|0A2F5C||ftc.gov||us||
+org|ice|ICE|ICE,immigration and customs enforcement|0A2F5C||ice.gov||us||
+org|metoffice|Met Office|met office|2B6E8F||metoffice.gov.uk||gb||
+# ---- people ----
+person|trump|Donald Trump|trump,trump's|C8102E||||us|US President|
+person|vance|JD Vance|vance,jd vance|C8102E||||us|US Vice President|
+person|hegseth|Pete Hegseth|hegseth|0A2F5C||||us|US Defense Secretary|pentagon
+person|rubio|Marco Rubio|rubio|0A2F5C||||us|US Secretary of State|
+person|stephenmiller|Stephen Miller|stephen miller|C8102E||||us|White House Chief of Staff|whitehouse
+person|patel|Kash Patel|kash patel|0A2F5C||||us|FBI Director|fbi
+person|bondi|Pam Bondi|bondi|0A2F5C||||us|US Attorney General|doj
+person|rfk|RFK Jr|kennedy jr,rfk jr,robert f. kennedy|0A2F5C||||us|US Health Secretary|
+person|gabbard|Tulsi Gabbard|gabbard|0A2F5C||||us|Director of National Intelligence|
+person|musk|Elon Musk|elon musk,musk|FFFFFF||||us|Tesla & SpaceX CEO|tesla
+person|biden|Joe Biden|biden|0015BC||||us|Former US President|
+person|obama|Barack Obama|obama|0015BC||||us|Former US President|
+person|harris|Kamala Harris|kamala harris|0015BC||||us|Former US Vice President|
+person|newsom|Gavin Newsom|newsom|0015BC||||us|California Governor|
+person|aoc|AOC|ocasio-cortez,AOC|0015BC||||us|US Congresswoman|
+person|mamdani|Zohran Mamdani|mamdani|0015BC||||us|New York City Mayor|
+person|johnson_speaker|Mike Johnson|speaker johnson,speaker mike johnson|C8102E||||us|House Speaker|congress
+person|starmer|Keir Starmer|starmer|E4003B||||gb|UK Prime Minister|labour
+person|reeves|Rachel Reeves|rachel reeves,reeves|E4003B||||gb|UK Chancellor|labour
+person|badenoch|Kemi Badenoch|badenoch|0087DC||||gb|Conservative leader|tories
+person|farage|Nigel Farage|farage|12B6CF||||gb|Reform UK leader|reform
+person|kingcharles|King Charles|king charles,the king|5A2D82||||gb|King|
+person|princewilliam|Prince William|prince william|5A2D82||||gb|Prince of Wales|
+person|harry|Prince Harry|prince harry,duke of sussex|5A2D82||||gb|Duke of Sussex|
+person|andrew|Andrew Mountbatten-Windsor|prince andrew,andrew mountbatten|5A2D82||||gb|Former Duke of York|
+person|netanyahu|Benjamin Netanyahu|netanyahu|0038B8||||il|Israeli Prime Minister|
+person|zelensky|Volodymyr Zelensky|zelensky,zelenskyy|0057B7||||ua|Ukrainian President|
+person|putin|Vladimir Putin|putin,kremlin|D52B1E||||ru|Russian President|
+person|xi|Xi Jinping|xi jinping,xi's|DE2910||||cn|Chinese President|
+person|modi|Narendra Modi|modi|FF9933||||in|Indian Prime Minister|
+person|macron|Emmanuel Macron|macron|0055A4||||fr|French President|
+person|merz|Friedrich Merz|merz|000000||||de|German Chancellor|
+person|meloni|Giorgia Meloni|meloni|009246||||it|Italian Prime Minister|
+person|erdogan|Recep Tayyip Erdogan|erdogan|E30A17||||tr|Turkish President|
+person|khamenei|Ali Khamenei|khamenei|239F40||||ir|Iran's Supreme Leader|
+person|mbs|Mohammed bin Salman|bin salman,MBS|006C35||||sa|Saudi Crown Prince|
+person|kimjongun|Kim Jong Un|kim jong un|ED1C27||||kp|North Korean leader|
+person|lula|Lula da Silva|lula|009C3B||||br|Brazilian President|
+person|milei|Javier Milei|milei|74ACDF||||ar|Argentine President|
+person|carney|Mark Carney|carney|D80621||||ca|Canadian Prime Minister|
+person|albanese|Anthony Albanese|albanese|00843D||||au|Australian Prime Minister|
+person|sheinbaum|Claudia Sheinbaum|sheinbaum|006847||||mx|Mexican President|
+person|maduro|Nicolás Maduro|maduro|CF142B||||ve|Venezuelan leader|
+person|orban|Viktor Orbán|orban,orbán|477050||||hu|Hungarian Prime Minister|
+person|vonderleyen|Ursula von der Leyen|von der leyen|003399||||eu|European Commission President|eu
+person|rutte|Mark Rutte|rutte|004990||||nl|NATO Secretary General|nato
+person|popeleo|Pope Leo XIV|pope leo,pope,vatican|FFE000||||va|Pope|
+person|powell|Jerome Powell|powell|1A3C6E||||us|Fed Chair|fed
+person|huang|Jensen Huang|jensen huang|76B900||||us|Nvidia CEO|nvidia
+person|altman|Sam Altman|sam altman,altman|10A37F||||us|OpenAI CEO|openai
+person|zuckerberg|Mark Zuckerberg|zuckerberg|0866FF||||us|Meta CEO|meta
+person|bezos|Jeff Bezos|bezos|FF9900||||us|Amazon founder|amazon
+person|cook|Tim Cook|tim cook|A2AAAD||||us|Apple CEO|apple
+person|epstein|Jeffrey Epstein|epstein|8E8E93||||us|Epstein files|
+person|combs|Sean Combs|sean combs,diddy|8E8E93||||us|Music mogul|
+person|swift|Taylor Swift|taylor swift|B8396B||||us|Singer|
+person|ronaldo|Cristiano Ronaldo|cristiano ronaldo,ronaldo|006600||||pt|Footballer|
+person|messi|Lionel Messi|messi|74ACDF||||ar|Footballer|
+person|lebron|LeBron James|lebron|FDB927||||us|NBA star|lakers
+person|haaland|Erling Haaland|haaland|6CABDD||||no|Man City striker|mancity
+person|salah|Mohamed Salah|salah|C8102E||||eg|Liverpool forward|liverpool
+person|kane|Harry Kane|harry kane|DC052D||||gb|England captain|bayern
+person|verstappen|Max Verstappen|verstappen|1E41FF||||nl|F1 driver|f1
+person|hamilton|Lewis Hamilton|lewis hamilton|DA291C||||gb|F1 driver|f1
+person|norris|Lando Norris|lando norris,norris|FF8000||||gb|F1 driver|f1
+person|djokovic|Novak Djokovic|djokovic|0C4076||||rs|Tennis player|
+person|alcaraz|Carlos Alcaraz|alcaraz|AA151B||||es|Tennis player|
+person|sinner|Jannik Sinner|jannik sinner|009246||||it|Tennis player|
+person|brand|Russell Brand|russell brand|8E8E93||||gb|Comedian|
+country|us|United States|united states,america,american,US,U.S.,USA,washington|||||us||
+country|gb|United Kingdom|UK,britain,british,united kingdom,england,english,scotland,scottish,wales,welsh,london|||||gb||
+country|ie|Ireland|ireland,irish,dublin|||||ie||
+country|fr|France|france,french,paris|||||fr||
+country|de|Germany|germany,german,berlin|||||de||
+country|it|Italy|italy,italian,rome|||||it||
+country|es|Spain|spain,spanish,madrid|||||es||
+country|pt|Portugal|portugal,portuguese,lisbon|||||pt||
+country|nl|Netherlands|netherlands,dutch,amsterdam|||||nl||
+country|be|Belgium|belgium,belgian|||||be||
+country|ch|Switzerland|switzerland,swiss,geneva|||||ch||
+country|at|Austria|austria,austrian,vienna|||||at||
+country|se|Sweden|sweden,swedish,stockholm|||||se||
+country|no|Norway|norway,norwegian,oslo|||||no||
+country|dk|Denmark|denmark,danish,copenhagen|||||dk||
+country|fi|Finland|finland,finnish,helsinki|||||fi||
+country|is|Iceland|iceland,icelandic|||||is||
+country|pl|Poland|poland,polish,warsaw,krakow|||||pl||
+country|cz|Czechia|czech,prague|||||cz||
+country|sk|Slovakia|slovakia,slovak|||||sk||
+country|hu|Hungary|hungary,hungarian,budapest|||||hu||
+country|ro|Romania|romania,romanian|||||ro||
+country|bg|Bulgaria|bulgaria,bulgarian|||||bg||
+country|gr|Greece|greece,greek,athens,crete|||||gr||
+country|cy|Cyprus|cyprus,cypriot|||||cy||
+country|mt|Malta|malta,maltese|||||mt||
+country|hr|Croatia|croatia,croatian|||||hr||
+country|rs|Serbia|serbia,serbian,belgrade|||||rs||
+country|ba|Bosnia|bosnia|||||ba||
+country|al|Albania|albania,albanian|||||al||
+country|md|Moldova|moldova|||||md||
+country|ee|Estonia|estonia,estonian|||||ee||
+country|lv|Latvia|latvia,latvian|||||lv||
+country|lt|Lithuania|lithuania,lithuanian|||||lt||
+country|ua|Ukraine|ukraine,ukrainian,kyiv,kharkiv,odesa,donbas|||||ua||
+country|ru|Russia|russia,russian,moscow|||||ru||
+country|by|Belarus|belarus,lukashenko|||||by||
+country|ge|Georgia|georgia's,tbilisi|||||ge||
+country|am|Armenia|armenia,armenian|||||am||
+country|az|Azerbaijan|azerbaijan|||||az||
+country|tr|Turkey|turkey,turkish,turkiye,türkiye,ankara,istanbul|||||tr||
+country|il|Israel|israel,israeli,jerusalem,tel aviv,IDF|||||il||
+country|ps|Palestine|gaza,palestinian,palestinians,west bank|||||ps||
+country|lb|Lebanon|lebanon,lebanese,beirut|||||lb||
+country|sy|Syria|syria,syrian,damascus|||||sy||
+country|iq|Iraq|iraq,iraqi,baghdad|||||iq||
+country|ir|Iran|iran,iranian,tehran|||||ir||
+country|sa|Saudi Arabia|saudi,riyadh|||||sa||
+country|ae|UAE|UAE,emirates,dubai,abu dhabi|||||ae||
+country|qa|Qatar|qatar,qatari,doha|||||qa||
+country|kw|Kuwait|kuwait|||||kw||
+country|om|Oman|oman|||||om||
+country|ye|Yemen|yemen|||||ye||
+country|jo|Jordan|jordan|||||jo||
+country|eg|Egypt|egypt,egyptian,cairo|||||eg||
+country|ly|Libya|libya|||||ly||
+country|tn|Tunisia|tunisia|||||tn||
+country|dz|Algeria|algeria|||||dz||
+country|ma|Morocco|morocco,moroccan|||||ma||
+country|sd|Sudan|sudan,sudanese,khartoum,darfur|||||sd||
+country|ss|South Sudan|south sudan|||||ss||
+country|et|Ethiopia|ethiopia,ethiopian|||||et||
+country|er|Eritrea|eritrea|||||er||
+country|so|Somalia|somalia,somali|||||so||
+country|ke|Kenya|kenya,kenyan,nairobi|||||ke||
+country|ug|Uganda|uganda|||||ug||
+country|tz|Tanzania|tanzania|||||tz||
+country|rw|Rwanda|rwanda|||||rw||
+country|cd|DR Congo|congo,drc,goma|||||cd||
+country|ng|Nigeria|nigeria,nigerian,lagos|||||ng||
+country|gh|Ghana|ghana|||||gh||
+country|sn|Senegal|senegal|||||sn||
+country|ml|Mali|mali|||||ml||
+country|ci|Ivory Coast|ivory coast|||||ci||
+country|cm|Cameroon|cameroon|||||cm||
+country|za|South Africa|south africa,johannesburg,cape town|||||za||
+country|zw|Zimbabwe|zimbabwe|||||zw||
+country|mz|Mozambique|mozambique|||||mz||
+country|ao|Angola|angola|||||ao||
+country|in|India|india,indian,delhi,mumbai|||||in||
+country|pk|Pakistan|pakistan,pakistani,islamabad|||||pk||
+country|af|Afghanistan|afghanistan,afghan,taliban,kabul|||||af||
+country|bd|Bangladesh|bangladesh|||||bd||
+country|lk|Sri Lanka|sri lanka|||||lk||
+country|np|Nepal|nepal|||||np||
+country|cn|China|china,chinese,beijing,shanghai|||||cn||
+country|hk|Hong Kong|hong kong|||||hk||
+country|tw|Taiwan|taiwan,taiwanese,taipei|||||tw||
+country|jp|Japan|japan,japanese,tokyo|||||jp||
+country|kr|South Korea|south korea,south korean,seoul|||||kr||
+country|kp|North Korea|north korea,north korean,pyongyang|||||kp||
+country|vn|Vietnam|vietnam,vietnamese|||||vn||
+country|th|Thailand|thailand,thai,bangkok|||||th||
+country|kh|Cambodia|cambodia|||||kh||
+country|mm|Myanmar|myanmar,burma|||||mm||
+country|my|Malaysia|malaysia|||||my||
+country|sg|Singapore|singapore|||||sg||
+country|id|Indonesia|indonesia,indonesian,jakarta,bali|||||id||
+country|ph|Philippines|philippines,filipino,manila|||||ph||
+country|au|Australia|australia,australian,sydney,melbourne|||||au||
+country|nz|New Zealand|new zealand|||||nz||
+country|ca|Canada|canada,canadian,ottawa,toronto|||||ca||
+country|mx|Mexico|mexico,mexican|||||mx||
+country|cu|Cuba|cuba,cuban,havana|||||cu||
+country|ht|Haiti|haiti|||||ht||
+country|jm|Jamaica|jamaica|||||jm||
+country|br|Brazil|brazil,brazilian|||||br||
+country|ar|Argentina|argentina,argentine|||||ar||
+country|cl|Chile|chile,chilean|||||cl||
+country|co|Colombia|colombia,colombian|||||co||
+country|ve|Venezuela|venezuela,venezuelan,caracas|||||ve||
+country|pe|Peru|peru|||||pe||
+country|ec|Ecuador|ecuador|||||ec||
+country|bo|Bolivia|bolivia|||||bo||
+country|kz|Kazakhstan|kazakhstan|||||kz||
+country|gl|Greenland|greenland|||||gl||
+country|va|Vatican|vatican|||||va||

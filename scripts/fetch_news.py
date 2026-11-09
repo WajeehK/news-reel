@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """News Reel fetcher: free RSS -> dedupe -> cluster -> keyword-classify -> data/news.json.
 Stdlib only, no LLM, no paid APIs. Keeps a rolling 3-day archive for timelines."""
-import json, re, time, html, hashlib, os, sys, urllib.request, concurrent.futures as cf
+import json, re, time, html, hashlib, os, sys, urllib.request, urllib.parse, concurrent.futures as cf
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from datetime import datetime, timezone
@@ -173,6 +173,76 @@ def cluster(items):
             cl.append({'tk': set(tk), 'arts': [it]})
     return cl
 
+# ---------- entities ----------
+ENTS = json.load(open(os.path.join(ROOT, 'entities.json'), encoding='utf-8'))
+def _krx(k):
+    cs = any(ch.isalpha() for ch in k) and k == k.upper()
+    return re.compile(r'(?<![A-Za-z0-9])' + re.escape(k) + r'(?![A-Za-z0-9])', 0 if cs else re.I)
+ENT_RX = {i: [_krx(k) for k in e['k']] for i, e in ENTS.items()}
+TW = {'company': 1.35, 'person': 1.25, 'crypto': 1.2, 'sport': 1.2, 'org': 1.0, 'country': 0.55}
+BOOST = {('tech', 'company'): 1.6, ('markets', 'company'): 1.5, ('crypto', 'crypto'): 2.2, ('sport', 'sport'): 1.6, ('sport', 'person'): 1.2,
+         ('war', 'country'): 1.8, ('war', 'org'): 1.3, ('disaster', 'country'): 1.7, ('election', 'person'): 1.3, ('legal', 'person'): 1.3, ('politics', 'person'): 1.2}
+
+def detect(arts, topic):
+    sc = {}
+    for a in arts:
+        for txt, w in ((a['title'], 3.0), (a['desc'], 1.0)):
+            if not txt: continue
+            for i, rxs in ENT_RX.items():
+                n = sum(len(r.findall(txt)) for r in rxs)
+                if n: sc[i] = sc.get(i, 0) + w * min(n, 3)
+    if not sc: return None, []
+    ranked = sorted(sc, key=lambda i: -sc[i] * TW[ENTS[i]['t']] * BOOST.get((topic, ENTS[i]['t']), 1))
+    return ranked[0], ranked[:5]
+
+def ent_rec(i):
+    e = ENTS[i]; r = {'id': i, 't': e['t'], 'n': e['n'], 'c': e.get('c', ''), 'logo': e.get('logo'), 'mono': e.get('mono'), 'cc': e.get('cc'), 'role': e.get('role'), 'tk': e.get('tk')}
+    o = e.get('org')
+    if o and o in ENTS:
+        oe = ENTS[o]; r['org'] = {'id': o, 'n': oe['n'], 'logo': oe.get('logo'), 'mono': oe.get('mono'), 'c': oe.get('c'), 'tk': oe.get('tk')}
+        if not r['tk'] and oe['t'] == 'company': r['tk'] = oe.get('tk')
+    return {k: v for k, v in r.items() if v}
+
+def quotes(syms):
+    out = {}
+    def one(sym):
+        try:
+            m = json.loads(get(f'https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(sym)}?range=1d&interval=1d', 10))['chart']['result'][0]['meta']
+            p = m.get('regularMarketPrice'); pc = m.get('chartPreviousClose') or m.get('previousClose')
+            ch = m.get('regularMarketChangePercent')
+            if ch is None and p and pc: ch = (p - pc) / pc * 100
+            if p: out[sym] = {'p': round(p, 2), 'ch': round(ch or 0, 2), 'cur': m.get('currency', '')}
+        except Exception as ex:
+            print('quote fail', sym, ex, file=sys.stderr)
+    with cf.ThreadPoolExecutor(8) as ex: list(ex.map(one, list(syms)[:60]))
+    return out
+
+def merge_pass(cl):
+    """Merge clusters about the same story: same main entity + topic + time window + shared words, or near-identical headlines."""
+    for c in cl:
+        c['topic'] = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']))
+        c['me'], c['ents_all'] = detect(c['arts'], c['topic'])
+        c['last'] = max(a['t'] for a in c['arts'])
+        ew = set()
+        for i in c['ents_all']:
+            for k in ENTS[i]['k'] + [ENTS[i]['n']]: ew |= toks(k)
+        c['atk'] = set(c['tk']) - ew
+        c['eset'] = {i for i in c['ents_all'] if ENTS[i]['t'] != 'country'}
+    out = []
+    for c in sorted(cl, key=lambda c: -len(c['arts'])):
+        tgt = None
+        for o in out:
+            sh = len(c['atk'] & o['atk']); jac = len(c['tk'] & o['tk']) / (len(c['tk'] | o['tk']) or 1)
+            same = c['me'] and c['me'] == o['me'] and abs(c['last'] - o['last']) < 20 * 3600
+            co = len((c['eset'] & o['eset']) - {c['me']})
+            if jac >= 0.42 or (same and c['topic'] == o['topic'] and (sh >= (3 if ENTS[c['me']]['t'] == 'country' else 2) or co >= 1)) or (same and sh >= 4):
+                tgt = o; break
+        if tgt:
+            links = {a['link'] for a in tgt['arts']}
+            tgt['arts'] += [a for a in c['arts'] if a['link'] not in links]; tgt['last'] = max(tgt['last'], c['last'])
+        else: out.append(c)
+    return out
+
 def build():
     now = int(time.time())
     with cf.ThreadPoolExecutor(10) as ex:
@@ -180,14 +250,15 @@ def build():
     items = [i for i in items if now - i['t'] < 36 * 3600 and i['t'] <= now + 600]
     print('items', len(items), file=sys.stderr)
     stories = []
-    for c in cluster(items):
+    for c in merge_pass(cluster(items)):
         arts = sorted(c['arts'], key=lambda a: (a['desc'] == '', a['t']))
         lead = arts[0]
         srcs = []
         for a in sorted(c['arts'], key=lambda a: a['t']):
             if a['src'] not in [s['src'] for s in srcs]: srcs.append({'src': a['src'], 'link': a['link'], 't': a['t']})
         alltext = ' '.join(a['title'] + ' ' + a['desc'] for a in c['arts'])
-        topic = classify(lead['title'] + ' ' + lead['title'] + ' ' + alltext)
+        topic = classify(' '.join(a['title'] + ' ' + a['title'] + ' ' + a['desc'] for a in c['arts']))
+        me, eall = detect(c['arts'], topic)
         first = min(a['t'] for a in c['arts']); last = max(a['t'] for a in c['arts'])
         descs = []
         for a in arts:
@@ -201,7 +272,7 @@ def build():
             'id': sid, 'topic': topic, 'title': lead['title'], 'summary': descs[0] if descs else '',
             'details': descs[1:4], 'ents': entities([a['title'] for a in c['arts'][:6]]), 'kw': sorted(c['tk'])[:14],
             'p': params(topic, lead['title'], alltext), 'img': next((a['img'] for a in arts if a['img']), None),
-            'srcs': srcs[:8], 'n': nsrc, 'first': first, 't': last, 'score': score, 'brk': brk,
+            'srcs': srcs[:8], 'me': ent_rec(me) if me else None, 'ex': [ent_rec(x) for x in eall[1:4] if ENTS[x]['t'] in ('country', 'company', 'person', 'org')][:3], 'n': nsrc, 'first': first, 't': last, 'score': score, 'brk': brk,
         })
     stories.sort(key=lambda s: -s['score'])
     stories = stories[:160]
@@ -222,25 +293,34 @@ def build():
             if ov >= 4: rel.append((ov, a))
         rel.sort(key=lambda x: (-x[0], -x[1]['t']))
         s['timeline'] = sorted([{'title': a['title'], 't': a['t'], 'link': a['link'], 'src': a['src']} for _, a in rel[:5]], key=lambda a: -a['t'])
-    # crypto prices (free, keyless; optional)
-    prices = None
-    try:
-        prices = json.loads(get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true'))
-    except Exception as e:
-        print('prices fail', e, file=sys.stderr)
-    # daily recap: top 5 of last 24h by sources, one per topic preference
-    day = [s for s in stories if now - s['t'] < 86400]
-    day.sort(key=lambda s: -(s['n'] * 2 + s['score']))
-    recap, used = [], set()
-    for s in day:
-        if len(recap) >= 5: break
-        if s['topic'] in used and len(day) > 12 and len(used) < 4: continue
-        recap.append(s['id']); used.add(s['topic'])
-    for s in day:
-        if len(recap) >= 5: break
-        if s['id'] not in recap: recap.append(s['id'])
     brk_ids = [s['id'] for s in stories if s['brk']][:5]
     for s in stories: s['brk'] = s['id'] in brk_ids
+    # prices: crypto (CoinGecko, keyless) + stocks for main entities (Yahoo chart, keyless)
+    cg = {'bitcoin', 'ethereum', 'solana'} | {s['me']['tk'] for s in stories if s.get('me') and s['me']['t'] == 'crypto' and s['me'].get('tk')}
+    prices = None
+    try:
+        prices = json.loads(get('https://api.coingecko.com/api/v3/simple/price?ids=' + ','.join(sorted(cg)) + '&vs_currencies=usd&include_24hr_change=true'))
+    except Exception as e:
+        print('prices fail', e, file=sys.stderr)
+    q = quotes({s['me']['tk'] for s in stories[:120] if s.get('me') and s['me']['t'] != 'crypto' and s['me'].get('tk')})
+    for s in stories:
+        me = s.get('me')
+        if not me or not me.get('tk'): continue
+        if me['t'] == 'crypto' and prices and me['tk'] in prices:
+            pr = prices[me['tk']]; me['q'] = {'p': pr.get('usd'), 'ch': round(pr.get('usd_24h_change') or 0, 2), 'cur': 'USD', 'sym': me['k'] if 'k' in me else me['n']}
+        elif me['tk'] in q: me['q'] = q[me['tk']]
+        if me.get('q') and s['topic'] in ('markets', 'tech', 'crypto') and 'dir' in s['p'] and not (UP_RX.search(s['title']) or DOWN_RX.search(s['title'])):
+            s['p']['dir'] = 'up' if me['q']['ch'] >= 0 else 'down'
+    # daily recap: every major / breaking story of the last 24h, most important first, one per main-entity+topic
+    day = [s for s in stories if now - s['t'] < 86400 and (s['brk'] or s['n'] >= 3 or (s['n'] >= 2 and s['score'] >= 4.5))]
+    day.sort(key=lambda s: -(s['n'] * 2 + s['score'] + (6 if s['brk'] else 0)))
+    recap, used = [], set()
+    for s in day:
+        key = (s['me']['id'], s['topic']) if s.get('me') and s['me']['t'] != 'country' else None
+        if key and key in used: continue
+        if key: used.add(key)
+        recap.append(s['id'])
+        if len(recap) >= 30: break
     out = {'generated': now, 'stories': stories, 'recap': recap, 'prices': prices,
            'breaking': brk_ids}
     os.makedirs(DATA, exist_ok=True)

@@ -1,6 +1,6 @@
 // News Reel app
 (function(){
-const V=2, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const V=3, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LS=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(_){return d}}, SS=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
 const {COL,LABEL}=window.INTRO_META;
 const TOPICS=['all','legal','politics','war','election','markets','crypto','tech','sport','disaster','science','general'];
@@ -25,8 +25,13 @@ const TH={
  politics:`<path d="M22 34h56L50 20z" fill="#5b5e78"/><path d="M28 38v34M40 38v34M52 38v34M64 38v34M74 38v34" stroke="#7d7aff" stroke-width="4"/><path d="M18 76h64" stroke="#7d7aff" stroke-width="4"/><circle class="a-bl" cx="50" cy="28" r="2.5" fill="#fff"/>`,
  general:`<circle cx="50" cy="50" r="28" fill="none" stroke="#e7e9ea" stroke-width="2"/><g class="a-cy"><ellipse cx="50" cy="50" rx="12" ry="28" fill="none" stroke="#e7e9ea" stroke-width="1.4" opacity=".6"/></g><path d="M22 50h56M26 36h48M26 64h48" stroke="#e7e9ea" stroke-width="1" opacity=".4"/>`
 };
+function entBadge(m){if(!m)return '';if(m.t==='country'&&m.cc)return `<span class="tl"><img src="assets/flags/${m.cc}.svg" alt=""></span>`;
+  const e=m.logo?m:(m.org&&m.org.logo?m.org:null);if(!e){return m.t==='person'&&m.cc?`<span class="tl"><img src="assets/flags/${m.cc}.svg" alt=""></span>`:''}
+  if(e.mono){const h=(e.c||'ffffff');const L=(()=>{const [r,g,b]=[0,2,4].map(i=>parseInt(h.substr(i,2),16)/255);return .2126*r+.7152*g+.0722*b})();
+    return `<span class="tl"><i style="-webkit-mask-image:url(${e.logo});mask-image:url(${e.logo});background:${L>.22?'#'+h:'#fff'}"></i></span>`}
+  return `<span class="tl pn"><img src="${e.logo}" alt=""></span>`}
 function thumb(s,photo){const k=s.topic==='markets'&&s.p&&s.p.dir==='down'?'marketsdn':(TH[s.topic]?s.topic:'general');
-  return `<div class="th" style="--c:${COL[s.topic]||'#888'}">${photo&&s.img?`<img class="ph" loading="lazy" src="${E(s.img)}" alt="" onerror="this.remove()">`:''}<svg viewBox="0 0 100 100">${TH[k]}</svg></div>`}
+  return `<div class="th" style="--c:${COL[s.topic]||'#888'}">${photo&&s.img?`<img class="ph" loading="lazy" src="${E(s.img)}" alt="" onerror="this.remove()">`:''}<svg viewBox="0 0 100 100">${TH[k]}</svg>${entBadge(s.me)}</div>`}
 function card(s,hero){const m=matches(s);
   return `<div class="card${hero?' hero':''}" data-id="${s.id}" style="--c:${COL[s.topic]}">${m?'<span class="bell">🔔</span>':''}${thumb(s,hero)}
   <div class="cb">${hero?'<div style="height:8px"></div>':''}<div class="cm" style="margin:0 0 5px">${s.brk?'<span class="bk">BREAKING</span>':''}<span class="tag">${E(LABEL[s.topic])}</span></div>
@@ -42,7 +47,7 @@ function render(){
   const items=B.map(s=>`<a data-id="${s.id}">${E(s.title)}</a>`).join('');$('#btrack').innerHTML=items+items;
   const R=(D.recap||[]).map(byId).filter(Boolean);
   $('#recap').innerHTML=R.map((s,i)=>`<div class="rc"><div class="rn">${i+1}</div><div style="flex:1;min-width:0">${card(s)}</div></div>`).join('')||'<div class="empty">Recap builds through the day.</div>';
-  $('#recapsub').textContent='The five biggest stories of the last 24 hours · '+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  $('#playall').textContent='▶ Play all '+R.length;$('#recapsub').textContent=R.length+' major & breaking stories from the last 24 hours · '+new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
   const SV=Object.values(saved).sort((a,b)=>b.savedAt-a.savedAt);
   $('#saved').innerHTML=SV.length?SV.map(s=>card(s)).join(''):'<div class="empty">Tap the bookmark on any story to save it here.</div>';
   $('#kws').innerHTML=kws.map((k,i)=>`<button class="kw press" data-i="${i}">${E(k)}<b>✕</b></button>`).join('')||'<span class="fine">No alerts yet.</span>';
@@ -68,7 +73,7 @@ function showView(s){closeView(true);const v=document.createElement('div');v.cla
   <button class="v-btn press${saved[s.id]?' on':''}" data-x="save" title="Save"><svg viewBox="0 0 24 24" fill="${saved[s.id]?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button></div>
   <div class="v-body"><div class="v-hero">${thumb(s,true)}</div><div class="v-in">
   <div class="cm" style="margin:0">${s.brk?'<span class="bk">BREAKING</span>':''}<span>${ago(s.t)}</span><span>·</span><span>${s.n} source${s.n>1?'s':''}</span><span>·</span><span>first seen ${hm(s.first)}</span></div>
-  <div class="v-h">${E(s.title)}</div>${s.summary?`<div class="v-sum">${E(s.summary)}</div>`:''}
+  <div class="v-h">${E(s.title)}</div>${s.me?(()=>{const m=s.me,q=m.q||(m.org&&m.org.q);return `<div class="v-ent"><div class="th" style="--c:#${m.c||'888'}">${entBadge(m)||`<b style="display:grid;place-items:center;height:100%;font-weight:900">${E(m.n.split(' ').map(w=>w[0]).join('').slice(0,2))}</b>`}</div><div><b>${E(m.n)}</b><small>${E(m.role||({company:'Company',country:'Country',crypto:'Crypto',sport:'Sport',org:'Organisation',person:'Person'})[m.t])}${m.tk&&m.t!=='crypto'?' · '+E(m.tk):''}</small></div>${q?`<div class="q ${q.ch>=0?'g':'r'}">${q.ch>=0?'▲':'▼'} ${Math.abs(q.ch).toFixed(2)}%<small style="display:block;color:var(--mu);font-weight:500">${q.p>=1000?Math.round(q.p).toLocaleString('en-US'):q.p} ${E(q.cur||'')}</small></div>`:''}</div>`})():''}${s.summary?`<div class="v-sum">${E(s.summary)}</div>`:''}
   ${det.length?`<div class="v-sec"><h3>Key details</h3><ul class="v-det" style="margin:0">${det.map(d=>`<li>${E(d)}</li>`).join('')}</ul></div>`:''}
   ${(s.ents||[]).length?`<div class="v-sec"><h3>People & places</h3><div class="ents">${s.ents.map(e=>`<span class="ent">${E(e)}</span>`).join('')}</div></div>`:''}
   ${(s.timeline||[]).length?`<div class="v-sec"><h3>Timeline</h3><div class="tl"><a><small>${hm(s.t)} · NOW</small><span>${E(s.title)}</span></a>${s.timeline.map(t=>`<a href="${E(t.link)}" target="_blank" rel="noopener"><small>${hm(t.t)} · ${E(t.src)}</small><span>${E(t.title)}</span></a>`).join('')}</div></div>`:''}
@@ -82,11 +87,11 @@ function showView(s){closeView(true);const v=document.createElement('div');v.cla
 function closeView(instant){const v=cur;if(!v)return;cur=null;if(instant){v.remove();return}v.classList.add('out');setTimeout(()=>v.remove(),300)}
 addEventListener('popstate',()=>{const m=location.hash.match(/^#s\/(\w+)/);if(m){if(!cur)openStory(m[1],{intro:false})}else closeView()});
 // ---- play-all recap ----
-$('#playall').onclick=async()=>{for(const id of (D.recap||[])){const s=byId(id);if(!s)continue;await playIntro(s,D,{dur:3400})}const f=byId((D.recap||[])[0]);f&&showView(f)};
+$('#playall').onclick=async()=>{const L=(D.recap||[]).map(byId).filter(Boolean);for(let i=0;i<L.length;i++){const r=await playIntro(L[i],D,{dur:3800,pl:{i,n:L.length}});if(r==='stop')return}};
 // ---- tabs ----
 function setTab(t){tab=t;document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==t);
   const bs=[...document.querySelectorAll('.tb')],i=bs.findIndex(b=>b.dataset.tab===t);bs.forEach((b,j)=>b.classList.toggle('on',j===i));
-  const bub=$('#bubble'),w=bs[0].offsetWidth;bub.style.width=w+'px';bub.style.transform=`translateX(${i*w}px)`;scrollTo(0,0);if(navigator.vibrate)navigator.vibrate(8)}
+  const bub=$('#bubble'),w=bs[0].offsetWidth;bub.style.width=w+'px';bub.style.transform=`translateX(${i*w}px)`;scrollTo(0,0);if(navigator.vibrate&&navigator.userActivation&&navigator.userActivation.hasBeenActive)navigator.vibrate(8)}
 $('#dock').addEventListener('click',e=>{const b=e.target.closest('.tb');b&&setTab(b.dataset.tab)});
 addEventListener('resize',()=>setTab(tab));
 document.addEventListener('click',e=>{const c=e.target.closest('.card[data-id],.btrack a[data-id]');if(c&&!e.target.closest('.view')){e.preventDefault();openStory(c.dataset.id)}
