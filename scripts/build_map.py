@@ -34,7 +34,10 @@ for g in topo['objects']['countries']['geometries']:
     d = []; best = (0, None)
     for poly in polys:
         for ri, r in enumerate(poly):
-            pts = [ne(lo, max(-58, la)) for lo, la in ring(r)]
+            raw = ring(r)
+            if any(abs(a[0] - b[0]) > 180 for a, b in zip(raw, raw[1:])):  # antimeridian crossing (Russia, Fiji): keep the ring on one side
+                raw = [(lo + 360 if lo < 0 else lo, la) for lo, la in raw]
+            pts = [ne(min(lo, 190), max(-58, la)) for lo, la in raw]
             d.append('M' + 'L'.join(f'{x:.1f},{y - top:.1f}' for x, y in pts) + 'Z')
             if ri == 0:
                 A = cx = cy = 0
