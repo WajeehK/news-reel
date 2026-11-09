@@ -1,3 +1,7 @@
 data/
 shots/
 __pycache__/
+watchdog.log
+watchdog.pid
+watchdog.lock
+watchdog.log.tmp

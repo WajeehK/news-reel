@@ -4,9 +4,9 @@ on:
   push: {branches: [main]}
   workflow_dispatch:
 permissions: {contents: write, pages: write, id-token: write}
-concurrency: {group: pages, cancel-in-progress: false}
 jobs:
   build:
+    concurrency: {group: pages, cancel-in-progress: false}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     environment: {name: github-pages, url: '${{ steps.deploy.outputs.page_url }}'}
@@ -28,3 +28,19 @@ jobs:
         with: {path: .}
       - id: deploy
         uses: actions/deploy-pages@v4
+  # Self-scheduling chain: ~14 min after each run, dispatch the next one (GitHub's cron is often late/skipped).
+  # Only the newest run keeps the chain going, so parallel triggers (cron, box watchdog, pushes) converge to one chain.
+  chain:
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: {actions: write}
+    steps:
+      - run: sleep 780
+      - name: Dispatch next refresh unless a newer run exists
+        env: {GH_TOKEN: '${{ github.token }}', R: '${{ github.repository }}', ID: '${{ github.run_id }}'}
+        run: |
+          me=$(gh api repos/$R/actions/runs/$ID -q .created_at)
+          newer=$(gh api "repos/$R/actions/workflows/news.yml/runs?per_page=10" -q "[.workflow_runs[]|select(.id!=$ID and .created_at>\"$me\")]|length")
+          if [ "$newer" = "0" ]; then gh workflow run news.yml -R $R --ref main && echo dispatched; else echo "newer run exists ($newer), chain continues there"; fi
