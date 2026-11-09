@@ -1,0 +1,104 @@
+# key|match words (comma)|lat|lon|cc   -- matched in story title/summary for precise map pins
+london|london,downing street,westminster|51.507|-0.128|gb
+manchester|manchester|53.48|-2.24|gb
+birmingham|birmingham|52.49|-1.89|gb
+glasgow|glasgow|55.86|-4.25|gb
+edinburgh|edinburgh|55.95|-3.19|gb
+belfast|belfast|54.6|-5.93|gb
+dublin|dublin|53.35|-6.26|ie
+paris|paris,elysee|48.857|2.352|fr
+brussels|brussels|50.85|4.35|be
+berlin|berlin|52.52|13.405|de
+frankfurt|frankfurt|50.11|8.68|de
+amsterdam|amsterdam,the hague|52.37|4.9|nl
+madrid|madrid|40.42|-3.7|es
+barcelona|barcelona|41.39|2.17|es
+rome|rome,vatican|41.9|12.5|it
+milan|milan|45.46|9.19|it
+geneva|geneva|46.2|6.14|ch
+zurich|zurich,davos|47.37|8.54|ch
+vienna|vienna|48.21|16.37|at
+warsaw|warsaw|52.23|21.01|pl
+krakow|krakow,kraków|50.06|19.94|pl
+stockholm|stockholm|59.33|18.07|se
+oslo|oslo|59.91|10.75|no
+copenhagen|copenhagen|55.68|12.57|dk
+helsinki|helsinki|60.17|24.94|fi
+athens|athens|37.98|23.73|gr
+istanbul|istanbul|41.01|28.98|tr
+ankara|ankara|39.93|32.86|tr
+moscow|moscow,kremlin|55.756|37.617|ru
+st-petersburg|st petersburg,saint petersburg|59.93|30.36|ru
+kyiv|kyiv,kiev|50.45|30.52|ua
+kharkiv|kharkiv|49.99|36.23|ua
+odesa|odesa,odessa|46.48|30.72|ua
+minsk|minsk|53.9|27.57|by
+jerusalem|jerusalem|31.77|35.21|il
+tel-aviv|tel aviv|32.08|34.78|il
+gaza|gaza,rafah,khan younis|31.45|34.39|ps
+west-bank|west bank,ramallah,jenin|31.95|35.25|ps
+beirut|beirut|33.89|35.5|lb
+damascus|damascus|33.51|36.29|sy
+baghdad|baghdad|33.31|44.37|iq
+tehran|tehran|35.69|51.39|ir
+hormuz|hormuz,strait of hormuz|26.57|56.25|ir
+riyadh|riyadh|24.71|46.68|sa
+doha|doha|25.29|51.53|qa
+dubai|dubai|25.2|55.27|ae
+abu-dhabi|abu dhabi|24.45|54.38|ae
+sanaa|sanaa,sana'a|15.37|44.19|ye
+red-sea|red sea|20.0|38.5|
+cairo|cairo|30.04|31.24|eg
+khartoum|khartoum,darfur|15.5|32.56|sd
+addis-ababa|addis ababa|9.03|38.74|et
+nairobi|nairobi|-1.29|36.82|ke
+lagos|lagos|6.52|3.38|ng
+abuja|abuja|9.08|7.4|ng
+johannesburg|johannesburg|-26.2|28.05|za
+cape-town|cape town|-33.92|18.42|za
+kinshasa|kinshasa,goma|-4.32|15.31|cd
+dakar|dakar|14.72|-17.47|sn
+tripoli|tripoli|32.89|13.19|ly
+kabul|kabul|34.53|69.17|af
+islamabad|islamabad|33.68|73.05|pk
+karachi|karachi|24.86|67.0|pk
+delhi|delhi,new delhi|28.61|77.21|in
+mumbai|mumbai|19.08|72.88|in
+dhaka|dhaka|23.81|90.41|bd
+beijing|beijing|39.9|116.4|cn
+shanghai|shanghai|31.23|121.47|cn
+hong-kong|hong kong|22.32|114.17|hk
+taipei|taipei,taiwan strait|25.03|121.57|tw
+tokyo|tokyo|35.68|139.69|jp
+seoul|seoul|37.57|126.98|kr
+pyongyang|pyongyang|39.04|125.76|kp
+manila|manila|14.6|120.98|ph
+bangkok|bangkok|13.76|100.5|th
+hanoi|hanoi|21.03|105.85|vn
+jakarta|jakarta|-6.21|106.85|id
+singapore|singapore|1.35|103.82|sg
+sydney|sydney|-33.87|151.21|au
+melbourne|melbourne|-37.81|144.96|au
+canberra|canberra|-35.28|149.13|au
+auckland|auckland,wellington|-36.85|174.76|nz
+washington|white house,pentagon,capitol hill,washington dc,congress|38.9|-77.04|us
+new-york|new york,wall street,manhattan,brooklyn,united nations|40.71|-74.0|us
+los-angeles|los angeles,hollywood|34.05|-118.24|us
+san-francisco|san francisco,silicon valley|37.77|-122.42|us
+chicago|chicago|41.88|-87.63|us
+miami|miami,florida|25.76|-80.19|us
+texas|texas,houston,dallas,austin|30.27|-97.74|us
+seattle|seattle|47.61|-122.33|us
+boston|boston|42.36|-71.06|us
+toronto|toronto|43.65|-79.38|ca
+ottawa|ottawa|45.42|-75.7|ca
+mexico-city|mexico city|19.43|-99.13|mx
+havana|havana|23.11|-82.37|cu
+caracas|caracas|10.48|-66.9|ve
+bogota|bogota,bogotá|4.71|-74.07|co
+lima|lima|-12.05|-77.04|pe
+sao-paulo|sao paulo,são paulo|-23.55|-46.63|br
+rio|rio de janeiro|-22.91|-43.17|br
+brasilia|brasilia,brasília|-15.79|-47.88|br
+buenos-aires|buenos aires|-34.6|-58.38|ar
+santiago|santiago|-33.45|-70.67|cl

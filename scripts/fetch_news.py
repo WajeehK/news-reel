@@ -161,6 +161,8 @@ def params(topic, title, text):
     if m: p['toll'] = m.group(1)
     return p
 
+JUNK_T = re.compile(r'live price|price history|price chart|price today|price prediction|\(\w+-USD\)|stock price|quote & history', re.I)
+
 def cluster(items):
     items.sort(key=lambda x: -x['t'])
     cl = []
@@ -217,7 +219,7 @@ def quotes(syms):
             p = m.get('regularMarketPrice'); pc = m.get('chartPreviousClose') or m.get('previousClose')
             ch = m.get('regularMarketChangePercent')
             if ch is None and p and pc: ch = (p - pc) / pc * 100
-            if p: out[sym] = {'p': round(p, 2), 'ch': round(ch or 0, 2), 'cur': m.get('currency', '')}
+            if p: out[sym] = {'p': round(p, 2), 'ch': round(ch or 0, 2), 'cur': m.get('currency', ''), 'at': m.get('regularMarketTime')}
         except Exception as ex:
             print('quote fail', sym, ex, file=sys.stderr)
     with cf.ThreadPoolExecutor(8) as ex: list(ex.map(one, list(syms)[:60]))
@@ -301,7 +303,7 @@ def build():
     print('items', len(items), file=sys.stderr)
     stories = []
     for c in merge_pass(cluster(items)):
-        arts = sorted(c['arts'], key=lambda a: (a['desc'] == '', a['t']))
+        arts = sorted(c['arts'], key=lambda a: (bool(JUNK_T.search(a['title'])), a['desc'] == '', a['t']))
         lead = arts[0]
         srcs = []
         for a in sorted(c['arts'], key=lambda a: a['t']):
@@ -372,13 +374,81 @@ def build():
         if key: used.add(key)
         recap.append(s['id'])
         if len(recap) >= 30: break
+    geo_tag(stories)
+    mq = quotes(list(MKT))
+    mkt = [{'k': k, 'n': MKT[k], **mq[k]} for k in MKT if k in mq]
     out = {'generated': now, 'stories': stories, 'recap': recap, 'prices': prices,
-           'breaking': brk_ids}
+           'breaking': brk_ids, 'mkt': mkt}
     os.makedirs(DATA, exist_ok=True)
     json.dump(out, open(os.path.join(DATA, 'news.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
     json.dump(arch, open(ap, 'w'), separators=(',', ':'), ensure_ascii=False)
     from collections import Counter
     print('stories', len(stories), Counter(s['topic'] for s in stories), 'breaking', len(out['breaking']), file=sys.stderr)
+
+MKT = {'^GSPC': 'S&P 500', '^IXIC': 'Nasdaq', 'BZ=F': 'Brent', 'CL=F': 'WTI', 'GC=F': 'Gold', 'BTC-USD': 'Bitcoin'}
+CITIES = []
+for _l in open(os.path.join(ROOT, 'scripts', 'cities.txt')):
+    if _l.strip() and not _l.startswith('#'):
+        _k, _w, *_ = _l.strip().split('|')
+        CITIES.append((_k, re.compile(r'\b(?:' + '|'.join(re.escape(w) for w in _w.split(',')) + r')\b', re.I)))
+
+def geo_tag(stories):
+    """Map pin: a known city named in the headline/summary, else the story's first country, else the main entity's country."""
+    for s in stories:
+        txt = s['title'] + ' ' + (s.get('summary') or '')
+        city = next((k for k, rx in CITIES if rx.search(s['title'])), None) or next((k for k, rx in CITIES if rx.search(txt)), None)
+        cc = next((e['cc'] for e in s.get('ex', []) if e.get('t') == 'country' and e.get('cc')), None) or (s.get('me') or {}).get('cc')
+        if city: s['geo'] = 'c:' + city
+        elif cc: s['geo'] = cc
+
+# ---- economic calendar: Forex Factory weekly JSON (free, keyless) + official central-bank decision dates ----
+CB = [('FOMC rate decision', 'USD', d) for d in ['2026-12-09T19:00:00Z', '2027-01-27T19:00:00Z', '2027-04-28T18:00:00Z', '2027-06-09T18:00:00Z', '2027-07-28T18:00:00Z', '2027-09-15T18:00:00Z', '2027-12-08T19:00:00Z']] + \
+     [('BoE rate decision', 'GBP', d) for d in ['2026-12-17T12:00:00Z', '2027-02-04T12:00:00Z', '2027-03-18T12:00:00Z', '2027-04-29T11:00:00Z', '2027-06-17T11:00:00Z', '2027-07-29T11:00:00Z', '2027-09-16T11:00:00Z', '2027-11-04T12:00:00Z', '2027-12-16T12:00:00Z']] + \
+     [('ECB rate decision', 'EUR', d) for d in ['2026-12-17T13:15:00Z', '2027-02-04T13:15:00Z', '2027-03-18T13:15:00Z', '2027-04-29T12:15:00Z', '2027-06-10T12:15:00Z', '2027-07-22T12:15:00Z', '2027-09-09T12:15:00Z', '2027-10-28T12:15:00Z', '2027-12-16T13:15:00Z']]
+KEY_EV = re.compile(r'cpi|gdp|pce|payroll|employment|unemployment|claims|rate|fomc|retail sales|pmi|ppi|inflation|monetary|powell|lagarde|bailey|earnings', re.I)
+CCY = {'USD': 'us', 'GBP': 'uk', 'EUR': 'ez|eu|euro|eurozone|german|germany', 'JPY': 'jp|japan', 'CAD': 'ca|canada', 'AUD': 'au|australia', 'NZD': 'nz|new zealand', 'CHF': 'ch|swiss', 'CNY': 'cn|china'}
+def _norm(t):
+    t = t.lower().replace('m/m', 'mom').replace('y/y', 'yoy').replace('q/q', 'qoq')
+    t = re.sub(r'\((?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\)|\(|\)', ' ', t)
+    return set(re.findall(r'[a-z0-9]+', t)) - {'the', 'of', 'and', 'sa', 'nsa', 'prel', 'prelim', 'final', 'flash', 'adv'}
+def actual_for(ev, fj):
+    want = _norm(ev['title']); cc = CCY.get(ev['ccy'], ev['ccy'].lower())
+    for it in fj:
+        m = re.match(r'^(.*?)\s+Actual\s+([^\s(]+)', it['t'])
+        if not m or it['ts'] < ev['ts'] - 120 or it['ts'] > ev['ts'] + 4 * 3600: continue
+        name = m.group(1).lower()
+        if not re.match(r'^(?:' + cc + r')\b', name): continue
+        have = _norm(name)
+        if want <= have and (('core' in want) == ('core' in have)): return m.group(2)
+    return None
+def calendar(fj):
+    path = os.path.join(DATA, 'calendar.json')
+    try: old = {e['id']: e for e in json.load(open(path))['events']}
+    except Exception: old = {}
+    evs = []
+    try:
+        for e in json.loads(get('https://nfs.faireconomy.media/ff_calendar_thisweek.json', 20)):
+            hi = e.get('impact') == 'High' or (e.get('impact') == 'Medium' and e.get('country') in ('USD', 'GBP', 'EUR') and KEY_EV.search(e.get('title', '')))
+            if not hi: continue
+            ts = int(datetime.fromisoformat(e['date']).timestamp())
+            evs.append({'title': e['title'], 'ccy': e['country'], 'ts': ts, 'imp': e['impact'][0], 'fc': e.get('forecast') or '', 'pr': e.get('previous') or ''})
+    except Exception as ex:
+        print('calendar fail', ex, file=sys.stderr)
+        evs = [e for e in old.values() if not e.get('cb')]
+    now = time.time()
+    for t, c, d in CB:
+        ts = int(datetime.fromisoformat(d.replace('Z', '+00:00')).timestamp())
+        if now - 86400 < ts < now + 45 * 86400: evs.append({'title': t, 'ccy': c, 'ts': ts, 'imp': 'H', 'fc': '', 'pr': '', 'cb': 1})
+    seen = set(); out = []
+    for e in sorted(evs, key=lambda e: e['ts']):
+        e['id'] = hashlib.md5(f"{e['title']}|{e['ccy']}|{e['ts']}".encode()).hexdigest()[:10]
+        if e['id'] in seen or (e.get('cb') and any(x['ccy'] == e['ccy'] and abs(x['ts'] - e['ts']) < 7200 and not x.get('cb') for x in out)): continue
+        seen.add(e['id'])
+        e['act'] = (old.get(e['id']) or {}).get('act') or (actual_for(e, fj) if e['ts'] <= now and not e.get('cb') else None)
+        if not e['act']: e.pop('act')
+        out.append(e)
+    json.dump({'generated': int(now), 'events': out}, open(path, 'w'), separators=(',', ':'))
+    print('calendar', len(out), file=sys.stderr)
 
 LIVE = [('AJ', 'https://www.aljazeera.com/xml/rss/all.xml'), ('FJ', 'https://www.financialjuice.com/feed.ashx?xy=rss')]
 
@@ -401,7 +471,8 @@ def live():
     items.sort(key=lambda x: -x['ts'])
     json.dump({'generated': int(time.time()), 'items': items[:200]}, open(os.path.join(DATA, 'live.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
     print('live', len(items), file=sys.stderr)
+    return [i for i in items if i['s'] == 'FJ']
 
 if __name__ == '__main__':
     build()
-    live()
+    calendar(live())

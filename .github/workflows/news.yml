@@ -12,10 +12,16 @@ jobs:
     environment: {name: github-pages, url: '${{ steps.deploy.outputs.page_url }}'}
     steps:
       - uses: actions/checkout@v4
-      - name: Restore rolling archive from live site
-        run: mkdir -p data && (curl -sfL --max-time 20 "https://wajeehk.github.io/news-reel/data/archive.json?t=$(date +%s)" -o data/archive.json || rm -f data/archive.json)
+      - name: Restore rolling state from live site (archive, calendar actuals, encrypted push state)
+        run: |
+          mkdir -p data
+          for f in archive.json calendar.json push.bin; do curl -sfL --max-time 20 "https://wajeehk.github.io/news-reel/data/$f?t=$(date +%s)" -o data/$f || rm -f data/$f; done
       - name: Fetch & build feed
         run: python3 scripts/fetch_news.py
+      - name: Send Web Push alerts (breaking, keywords, morning briefing)
+        env: {VAPID_PRIVATE: '${{ secrets.VAPID_PRIVATE }}', PUSH_RSA_PRIV: '${{ secrets.PUSH_RSA_PRIV }}'}
+        run: python3 -m venv /tmp/pv && /tmp/pv/bin/pip install -q 'pywebpush==2.*' && /tmp/pv/bin/python scripts/push.py
+        continue-on-error: true
       - name: Keep schedule alive (GitHub disables crons after 60 idle days)
         run: |
           last=$(git log -1 --format=%ct); now=$(date +%s)

@@ -1,6 +1,6 @@
-// News Reel app v5
+// News Reel app v6
 (function(){
-const V=5, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const V=6, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LS=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(_){return d}}, SS=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
 const {COL,LABEL,lum}=window.INTRO_META;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const TOPICS=['all','legal','politics','war','election','markets','crypto','tech','sport','disaster','science','general'];
@@ -42,7 +42,7 @@ function fallback(s){const m=s.me,c=COL[s.topic]||'#888';
 window.nrFb=img=>{const s=byId(img.dataset.id);const m=img.closest('.media,.v-hero');if(s&&m)m.innerHTML=fallback(s)};
 function media(s,cls){return `<div class="media ${cls||''}">${goodImg(s)?`<img class="ph" src="${E(s.img)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-id="${s.id}" onerror="nrFb(this)"><div class="shade"></div>${badge(s.me)}`:fallback(s)}</div>`}
 function kick(s){return `<div class="kick" style="--c:${COL[s.topic]}">${s.brk?'<span class="bk">Breaking</span>':''}${E(LABEL[s.topic])}<span class="src">· ${E((s.srcs[0]||{}).src||'')}</span></div>`}
-function meta(s){return `<div class="meta"><span>${ago(s.t)}</span><span>·</span><span>${s.n} source${s.n>1?'s':''}</span>${matches(s)?'<span class="bell">● Alert</span>':''}</div>`}
+function meta(s){return `<div class="meta"><span>${ago(s.t)}</span><span>·</span><span>${s.n} source${s.n>1?'s':''}</span>${matches(s)?'<span class="bell">● Alert</span>':''}${window.NR6?NR6.mini(s):''}</div>`}
 const hero=s=>`<div class="hero" data-id="${s.id}">${media(s)}${kick(s)}<h2>${E(s.title)}</h2>${s.summary?`<p>${E(s.summary)}</p>`:''}${meta(s)}</div>`;
 const row=(s,i)=>`<div class="row" data-id="${s.id}" style="animation-delay:${Math.min(i||0,10)*25}ms">${i!=null&&i<0?'':''}<div class="tx">${kick(s)}<h3>${E(s.title)}</h3>${meta(s)}</div>${media(s)}</div>`;
 function rank(list){return list.map(s=>({s,r:s.score*(1+(aff[s.topic]||0)*.04)*(matches(s)?3:1)*(seen.has(s.id)?.6:1)*(goodImg(s)?1.15:1)})).sort((a,b)=>b.r-a.r).map(x=>x.s)}
@@ -74,7 +74,7 @@ function render(){
 let loading=null;
 async function load(){if(loading)return loading;loading=(async()=>{try{
   const r=await fetch('data/news.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw 0;const d=await r.json();
-  const fresh=!D||d.generated!==D.generated;D=d;SS('nr-cache',d);if(fresh){render();checkAlerts()}}catch(_){if(D)render()}finally{loading=null}})();return loading}
+  const fresh=!D||d.generated!==D.generated;D=d;SS('nr-cache',d);if(fresh){render();checkAlerts()}document.dispatchEvent(new Event('nr-data'))}catch(_){if(D)render()}finally{loading=null}})();return loading}
 // ---- story view ----
 let cur=null;
 async function openStory(id,{intro=true}={}){let s=byId(id);if(!s){await load();s=byId(id)}if(!s)return toast('That story has rolled off the feed.');
@@ -97,6 +97,7 @@ function showView(s){closeView(true);const v=document.createElement('div');v.cla
   ${det.length?`<div class="v-sec"><h4>Key details</h4><ul class="v-det">${det.map(d=>`<li>${E(d)}</li>`).join('')}</ul></div>`:''}
   ${(s.ents||[]).length?`<div class="v-sec"><h4>People &amp; places</h4><div class="ents">${s.ents.map(e=>`<span class="ent">${E(e)}</span>`).join('')}</div></div>`:''}
   ${(s.timeline||[]).length?`<div class="v-sec"><h4>Timeline</h4><div class="tl"><a><small>${hm(s.t)} · Now</small><span>${E(s.title)}</span></a>${s.timeline.map(t=>`<a href="${E(t.link)}" target="_blank" rel="noopener"><small>${hm(t.t)} · ${E(t.src)}</small><span>${E(t.title)}</span></a>`).join('')}</div></div>`:''}
+  ${window.NR6?NR6.meter(s):''}
   <div class="v-sec srcs"><h4>Read the full story</h4>${(s.srcs||[]).map(x=>`<a href="${E(x.link)}" target="_blank" rel="noopener">${E(x.src)}<small>${ago(x.t)} ↗</small></a>`).join('')}</div></div></div>`;
   const body=v.querySelector('.v-body'),bar=v.querySelector('.v-bar');body.addEventListener('scroll',()=>bar.classList.toggle('sc',body.scrollTop>120),{passive:true});
   v.addEventListener('click',async e=>{const b=e.target.closest('[data-x]');if(!b)return;const x=b.dataset.x;
@@ -111,52 +112,54 @@ addEventListener('popstate',()=>{const m=location.hash.match(/^#s\/(\w+)/);if(m)
 async function playRecap(start){const L=(D.recap||[]).map(byId).filter(Boolean);if(!L.length)return;L.forEach(s=>seen.add(s.id));SS('nr-seen',[...seen].slice(-400));await playStories(L,D,start||0);render()}
 $('#playall').onclick=()=>playRecap(0);
 // ---- liquid-glass dock (spring physics, stretch while moving, drag to scrub) ----
-const TABS=['feed','live','recap','saved','alerts'],dock=$('#dock'),bub=$('#bubble'),tbs=[...document.querySelectorAll('.tb')];
+const TABS=['feed','live','map','recap','alerts'],dock=$('#dock'),bub=$('#bubble'),tbs=[...document.querySelectorAll('.tb')];
 function spring(o){const s={x:0,v:0,target:0,k:o.k,c:o.c,on:o.on,raf:0,set(t,instant){s.target=t;if(instant||RM){s.x=t;s.v=0;s.on(s.x,0);return}
   if(!s.raf){let last=performance.now();const f=now=>{const dt=Math.min(.032,(now-last)/1000);last=now;const a=-s.k*(s.x-s.target)-s.c*s.v;s.v+=a*dt;s.x+=s.v*dt;s.on(s.x,s.v);
   if(Math.abs(s.v)<2&&Math.abs(s.x-s.target)<.3){s.x=s.target;s.v=0;s.on(s.x,0);s.raf=0;return}s.raf=requestAnimationFrame(f)};s.raf=requestAnimationFrame(f)}}};return s}
 let bw=0,press=1;
 const slotX=i=>tbs[i].offsetLeft;
-function paint(x,v){const st=RM?0:Math.min(.34,Math.abs(v)/2400);bub.style.transform=`translate3d(${x.toFixed(2)}px,0,0) scale(${((1+st)*press).toFixed(3)},${((1-st*.42)*press).toFixed(3)})`;
-  const c=x+bw/2;tbs.forEach(b=>b.classList.toggle('on',c>=b.offsetLeft&&c<b.offsetLeft+b.offsetWidth))}
+function paint(x,v){bub.style.opacity=TABS.includes(tab)?1:0;const st=RM?0:Math.min(.34,Math.abs(v)/2400);bub.style.transform=`translate3d(${x.toFixed(2)}px,0,0) scale(${((1+st)*press).toFixed(3)},${((1-st*.42)*press).toFixed(3)})`;
+  const c=x+bw/2;tbs.forEach(b=>b.classList.toggle('on',TABS.includes(tab)&&c>=b.offsetLeft&&c<b.offsetLeft+b.offsetWidth))}
 const bs=spring({k:380,c:26,on:paint});
-function sizeBubble(){bw=tbs[0].offsetWidth;bub.style.width=bw+'px';bs.set(slotX(TABS.indexOf(tab)),true)}
+function sizeBubble(){bw=tbs[0].offsetWidth;bub.style.width=bw+'px';bs.set(slotX(Math.max(0,TABS.indexOf(tab))),true)}
 const rubber=x=>{const a=slotX(0),b=slotX(tbs.length-1);return x<a?a-Math.pow(a-x,.7):x>b?b+Math.pow(x-b,.7):x};
 const nearest=x=>{let best=0,d=1e9;tbs.forEach((b,i)=>{const dd=Math.abs(b.offsetLeft-x);if(dd<d){d=dd;best=i}});return best};
-function go(t){const prev=tab;tab=t;bs.set(slotX(TABS.indexOf(t)));if(prev!==t){vib(6);document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==t);scrollTo(0,0);document.dispatchEvent(new CustomEvent('nr-tab',{detail:t}))}}
+function go(t){const prev=tab;tab=t;if(TABS.includes(t))bs.set(slotX(TABS.indexOf(t)));else paint(bs.x,0);document.body.dataset.tab=t;$('#hsav').classList.toggle('on',t==='saved');if(prev!==t){vib(6);document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==t);scrollTo(0,0);document.dispatchEvent(new CustomEvent('nr-tab',{detail:t}))}}
 let drag=null;
 dock.addEventListener('pointerdown',e=>{dock.setPointerCapture(e.pointerId);const r=dock.getBoundingClientRect();drag={x0:e.clientX,left:r.left};press=1.08;dock.classList.add('drag');bs.set(rubber(e.clientX-r.left-bw/2))});
 dock.addEventListener('pointermove',e=>{if(drag)bs.set(rubber(e.clientX-drag.left-bw/2))});
 const endDrag=()=>{if(!drag)return;const i=nearest(bs.target);drag=null;press=1;dock.classList.remove('drag');go(TABS[i])};
 dock.addEventListener('pointerup',endDrag);dock.addEventListener('pointercancel',endDrag);
 addEventListener('resize',sizeBubble);window.__dock={go,bs};
+window.__nr={D:()=>D,openStory:id=>openStory(id),go,kws:()=>kws};
+$('#hsav').onclick=()=>go(tab==='saved'?'feed':'saved');
 addEventListener('scroll',()=>$('#top').classList.toggle('sc',scrollY>8),{passive:true});
 // ---- clicks ----
 document.addEventListener('click',e=>{if(e.target.closest('.view,.intro,.player'))return;
   const c=e.target.closest('.hero[data-id],.row[data-id],.brk[data-id]');if(c){openStory(c.dataset.id);return}
   const rb=e.target.closest('.rb[data-ri]');if(rb){playRecap(+rb.dataset.ri);return}
   const ch=e.target.closest('.chip[data-t]');if(ch){topic=ch.dataset.t;render();scrollTo({top:0,behavior:'smooth'});ch.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})}
-  const k=e.target.closest('.kw[data-i]');if(k){kws.splice(+k.dataset.i,1);SS('nr-kw',kws);render()}});
+  const k=e.target.closest('.kw[data-i]');if(k){kws.splice(+k.dataset.i,1);SS('nr-kw',kws);render();document.dispatchEvent(new Event('nr-kw'))}});
 $('#credbtn').onclick=async()=>{const el=$('#credits');if(!el.hidden){el.hidden=true;return}try{const c=await (await fetch('assets/faces/credits.json')).json();
   el.innerHTML=Object.values(c).map(x=>`<div>${E(x.title)}: ${x.file?`<a href="${E(x.file)}" target="_blank" rel="noopener">${E(x.artist||'Wikimedia Commons')}</a>`:'Wikimedia Commons'}${x.license?' · '+E(x.license):''}</div>`).join('');el.hidden=false}catch(_){}};
 $('#kwform').onsubmit=e=>{e.preventDefault();const v=$('#kwin').value.trim();if(v&&!kws.some(k=>k.toLowerCase()===v.toLowerCase())){kws.push(v);SS('nr-kw',kws);
-  const al=LS('nr-alerted',[]);D&&D.stories.filter(matches).forEach(s=>al.push(s.id));SS('nr-alerted',al.slice(-500))}$('#kwin').value='';render()};
+  const al=LS('nr-alerted',[]);D&&D.stories.filter(matches).forEach(s=>al.push(s.id));SS('nr-alerted',al.slice(-500))}$('#kwin').value='';render();document.dispatchEvent(new Event('nr-kw'))};
 // ---- alerts ----
 function toast(msg,id){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);if(id)t.onclick=()=>{t.remove();openStory(id)};setTimeout(()=>t.remove(),5000)}
 async function checkAlerts(){if(!kws.length||!D)return;const al=new Set(LS('nr-alerted',[]));const fresh=D.stories.filter(s=>matches(s)&&!al.has(s.id));if(!fresh.length)return;
   fresh.forEach(s=>al.add(s.id));SS('nr-alerted',[...al].slice(-500));const s=fresh[0];const k=(kwRx().exec(s.title+' '+s.summary+' '+s.ents.join(' ')+' '+((s.me||{}).n||''))||[])[1]||'';
-  if('Notification' in window&&Notification.permission==='granted'&&navigator.serviceWorker){const reg=await navigator.serviceWorker.ready;
+  if(!(window.NR6&&NR6.pushOn())&&'Notification' in window&&Notification.permission==='granted'&&navigator.serviceWorker){const reg=await navigator.serviceWorker.ready;
     for(const x of fresh.slice(0,3))reg.showNotification('🔔 '+(k||'News Reel'),{body:x.title,tag:x.id,icon:'icon-192.png',badge:'icon-192.png',data:{url:'./#s/'+x.id}})}
   else toast('🔔 '+k+': '+s.title,s.id)}
-function notifNote(){const n=$('#notifnote'),b=$('#notif');const ok='Notification' in window;b.hidden=!ok||Notification.permission==='granted';
+function notifNote(){return;const n=$('#notifnote'),b=$('#notif');const ok='Notification' in window;b.hidden=!ok||Notification.permission==='granted';
   n.textContent=!ok?'On iPhone, add News Reel to your Home Screen to allow notifications.':Notification.permission==='granted'?'Notifications are on. You\u2019ll be alerted about new matching stories whenever the app refreshes.':Notification.permission==='denied'?'Notifications are blocked in Settings.':'Get a notification when a new story matches your alerts.'}
 $('#notif').onclick=async()=>{try{await Notification.requestPermission()}catch(_){}notifNote()};
 // ---- boot ----
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js?v='+V).catch(()=>{});
-navigator.serviceWorker&&navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='open'){const m=String(e.data.url).match(/#s\/(\w+)/);m&&openStory(m[1])}});
+navigator.serviceWorker&&navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='pushed'){(window.__pushes=window.__pushes||[]).push(e.data.d)}if(e.data&&e.data.type==='open'){const u=String(e.data.url);const m=u.match(/#s\/(\w+)/);if(m)openStory(m[1]);else if(/#brief/.test(u))NR6.focusBrief()}});
 const t0=Date.now();render();sizeBubble();
 load().then(async()=>{await new Promise(r=>setTimeout(r,Math.max(0,900-(Date.now()-t0))));$('#boot').classList.add('hide');setTimeout(()=>$('#boot').remove(),500);
-  const m=location.hash.match(/^#s\/(\w+)/);if(m)openStory(m[1])});
+  const m=location.hash.match(/^#s\/(\w+)/);if(m)openStory(m[1]);else if(location.hash==='#brief'){history.replaceState(null,'',location.pathname);NR6.focusBrief()}});
 setInterval(()=>{if(!document.hidden)load()},120000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
 setInterval(()=>{if(D)$('#upd').textContent='Updated '+ago(D.generated).toLowerCase()},30000);

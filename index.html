@@ -18,14 +18,16 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="app.css?v=5"><link rel="stylesheet" href="intros.css?v=5">
+<link rel="stylesheet" href="app.css?v=6"><link rel="stylesheet" href="intros.css?v=6">
 </head><body>
 <div id="boot"><div class="w"><img src="icon.svg" alt="" width="54" height="54" style="border-radius:14px">NEWS<span>REEL</span></div></div>
 <header class="top" id="top">
-  <div class="brand"><img class="bi" src="icon.svg" alt=""><b>News</b><b class="r">Reel</b><span class="upd" id="upd"></span></div>
+  <div class="brand"><img class="bi" src="icon.svg" alt=""><b>News</b><b class="r">Reel</b><span class="upd" id="upd"></span><button class="hsav press" id="hsav" aria-label="Saved stories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-3.8-5.5 3.8z"/></svg></button></div>
 </header>
 <main class="wrap" id="main">
   <section data-view="feed">
+    <div class="mkts" id="mkt"></div>
+    <div class="brief" id="brief"></div>
     <div class="mast"><div class="date" id="date"></div><h1 class="lt">Top Stories</h1></div>
     <button class="brk press" id="brk" hidden><span class="bl"><i></i>Breaking</span><span class="bt" id="btxt"></span><span class="chev">›</span></button>
     <div class="chips" id="chips"></div>
@@ -34,9 +36,18 @@
   <section data-view="live" hidden>
     <div class="mast"><div class="date"><span class="onair"><i></i>On air</span></div><h1 class="lt">Live News</h1></div>
     <div class="lvtv"><button id="lvplay" class="press" aria-label="Play Al Jazeera English live"><span class="lvbg"></span><span class="lvplay"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></span><span class="lvcap"><b>Al Jazeera English</b><small><i></i>LIVE · tap to watch</small></span></button></div>
+    <div class="mkts" id="mkt2"></div>
+    <div class="sh calh">Economic calendar <span id="calnext"></span></div>
+    <div class="cal" id="cal"></div>
+    <div class="sh">Squawk</div>
     <div class="lvstat" id="lvstat"></div>
     <div class="chips lchips"><button class="chip lchip on" data-f="all">All</button><button class="chip lchip" data-f="FJ"><i style="background:#ffb020"></i>FinancialJuice</button><button class="chip lchip" data-f="AJ"><i style="background:#fa9000"></i>Al Jazeera</button></div>
     <div class="squawk" id="squawk"></div>
+  </section>
+  <section data-view="map" hidden>
+    <div class="mast"><h1 class="lt">World</h1><p class="sub" id="mapsub" style="margin:4px 0 10px">Loading map…</p></div>
+    <div class="map" id="map"></div>
+    <div class="mleg"><span style="--c:#ff453a">Conflict</span><span style="--c:#7d7aff">Politics</span><span style="--c:#ff3b30">Legal</span><span style="--c:#30d158">Markets/Sport</span><span style="--c:#0a84ff">Election</span><span style="--c:#ff9f0a">Disaster</span><span style="--c:#64d2ff">Tech</span><span class="pl">Pulsing = breaking</span></div>
   </section>
   <section data-view="recap" hidden>
     <div class="mast"><div class="date" id="recapdate"></div><h1 class="lt">Today's Big Stories</h1></div>
@@ -51,11 +62,12 @@
     <p class="sub">Follow people, companies or topics. Matching stories get a bell and move up your feed.</p>
     <form id="kwform" class="kwf"><input id="kwin" placeholder="e.g. Hegseth, Bitcoin, Arsenal" autocomplete="off" enterkeyhint="done"><button class="press">Add</button></form>
     <div class="kws" id="kws"></div>
-    <button class="notif press" id="notif">Enable notifications</button>
-    <p class="fine" id="notifnote"></p>
+    <div class="push" id="push"></div>
+    <button class="notif press" id="notif" hidden>Enable notifications</button>
+    <p class="fine" id="notifnote" hidden></p>
     <div class="sh">Matching now</div><div id="matches"></div>
     <div class="sh">About</div>
-    <p class="fine">News Reel reads public RSS feeds from BBC, Guardian, Sky News, NPR, Al Jazeera, CBS and Google News (incl. Reuters &amp; AP) every ~15 minutes. Live News: FinancialJuice headlines straight from its public feed every 60 seconds while open, Al Jazeera headlines every ~15 minutes, Al Jazeera English live stream via YouTube. Story images belong to their publishers and link to the original articles. Logos from <a href="https://simpleicons.org" target="_blank" rel="noopener">Simple Icons</a> (CC0) or the brand's own site icon; flags from <a href="https://flagicons.lipis.dev" target="_blank" rel="noopener">flag-icons</a> (MIT). Portraits from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> via Wikipedia, used under their free licences: <button class="lnk" id="credbtn">view photo credits</button>. Prices: CoinGecko and Yahoo Finance.</p>
+    <p class="fine">News Reel reads public RSS feeds from BBC, Guardian, Sky News, NPR, Al Jazeera, CBS and Google News (incl. Reuters &amp; AP) every ~15 minutes. Live News: FinancialJuice headlines straight from its public feed every 60 seconds while open, Al Jazeera headlines every ~15 minutes, Al Jazeera English live stream via YouTube. Story images belong to their publishers and link to the original articles. Logos from <a href="https://simpleicons.org" target="_blank" rel="noopener">Simple Icons</a> (CC0) or the brand's own site icon; flags from <a href="https://flagicons.lipis.dev" target="_blank" rel="noopener">flag-icons</a> (MIT). Portraits from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> via Wikipedia, used under their free licences: <button class="lnk" id="credbtn">view photo credits</button>. Prices: CoinGecko, Binance (live Bitcoin) and Yahoo Finance (delayed). Economic calendar: Forex Factory weekly feed plus official Fed, BoE and ECB dates; actuals from FinancialJuice. Map: Natural Earth (public domain). Outlet lean ratings are approximate, loosely based on public AllSides / Ad Fontes style charts. Push alerts are relayed via ntfy.sh, end-to-end encrypted to this app.</p>
     <div id="credits" class="fine" hidden></div>
   </section>
   <div class="foot" id="foot"></div>
@@ -63,9 +75,9 @@
 <nav class="dock" id="dock" aria-label="Tabs"><span class="bubble" id="bubble"></span>
   <button class="tb on" data-tab="feed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="3.5"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5"/></svg>For You</button>
   <button class="tb" data-tab="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="2.2" fill="currentColor"/><path d="M8.3 8.3a5.2 5.2 0 000 7.4M15.7 8.3a5.2 5.2 0 010 7.4M5.4 5.4a9.3 9.3 0 000 13.2M18.6 5.4a9.3 9.3 0 010 13.2"/></svg>Live</button>
+  <button class="tb" data-tab="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.4 3.8 5.2 3.8 8.5s-1.2 6.1-3.8 8.5c-2.6-2.4-3.8-5.2-3.8-8.5s1.2-6.1 3.8-8.5z"/></svg>Map</button>
   <button class="tb" data-tab="recap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" stroke-dasharray="3 2.2"/><path d="M10 8.8l5 3.2-5 3.2z" fill="currentColor"/></svg>Recap</button>
-  <button class="tb" data-tab="saved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-3.8-5.5 3.8z"/></svg>Saved</button>
   <button class="tb" data-tab="alerts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 16V11a6 6 0 0112 0v5l1.6 1.8H4.4zM10 21h4"/></svg>Alerts</button>
 </nav>
-<script src="intros.js?v=5"></script><script src="app.js?v=5"></script><script src="live.js?v=5"></script>
+<script src="intros.js?v=6"></script><script src="v6.js?v=6"></script><script src="app.js?v=6"></script><script src="live.js?v=6"></script>
 </body></html>
