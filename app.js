@@ -1,6 +1,6 @@
-// News Reel app v4
+// News Reel app v5
 (function(){
-const V=4, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const V=5, $=s=>document.querySelector(s), E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const LS=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(_){return d}}, SS=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_){}};
 const {COL,LABEL,lum}=window.INTRO_META;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const TOPICS=['all','legal','politics','war','election','markets','crypto','tech','sport','disaster','science','general'];
@@ -111,7 +111,7 @@ addEventListener('popstate',()=>{const m=location.hash.match(/^#s\/(\w+)/);if(m)
 async function playRecap(start){const L=(D.recap||[]).map(byId).filter(Boolean);if(!L.length)return;L.forEach(s=>seen.add(s.id));SS('nr-seen',[...seen].slice(-400));await playStories(L,D,start||0);render()}
 $('#playall').onclick=()=>playRecap(0);
 // ---- liquid-glass dock (spring physics, stretch while moving, drag to scrub) ----
-const TABS=['feed','recap','saved','alerts'],dock=$('#dock'),bub=$('#bubble'),tbs=[...document.querySelectorAll('.tb')];
+const TABS=['feed','live','recap','saved','alerts'],dock=$('#dock'),bub=$('#bubble'),tbs=[...document.querySelectorAll('.tb')];
 function spring(o){const s={x:0,v:0,target:0,k:o.k,c:o.c,on:o.on,raf:0,set(t,instant){s.target=t;if(instant||RM){s.x=t;s.v=0;s.on(s.x,0);return}
   if(!s.raf){let last=performance.now();const f=now=>{const dt=Math.min(.032,(now-last)/1000);last=now;const a=-s.k*(s.x-s.target)-s.c*s.v;s.v+=a*dt;s.x+=s.v*dt;s.on(s.x,s.v);
   if(Math.abs(s.v)<2&&Math.abs(s.x-s.target)<.3){s.x=s.target;s.v=0;s.on(s.x,0);s.raf=0;return}s.raf=requestAnimationFrame(f)};s.raf=requestAnimationFrame(f)}}};return s}
@@ -123,7 +123,7 @@ const bs=spring({k:380,c:26,on:paint});
 function sizeBubble(){bw=tbs[0].offsetWidth;bub.style.width=bw+'px';bs.set(slotX(TABS.indexOf(tab)),true)}
 const rubber=x=>{const a=slotX(0),b=slotX(tbs.length-1);return x<a?a-Math.pow(a-x,.7):x>b?b+Math.pow(x-b,.7):x};
 const nearest=x=>{let best=0,d=1e9;tbs.forEach((b,i)=>{const dd=Math.abs(b.offsetLeft-x);if(dd<d){d=dd;best=i}});return best};
-function go(t){const prev=tab;tab=t;bs.set(slotX(TABS.indexOf(t)));if(prev!==t){vib(6);document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==t);scrollTo(0,0)}}
+function go(t){const prev=tab;tab=t;bs.set(slotX(TABS.indexOf(t)));if(prev!==t){vib(6);document.querySelectorAll('[data-view]').forEach(el=>el.hidden=el.dataset.view!==t);scrollTo(0,0);document.dispatchEvent(new CustomEvent('nr-tab',{detail:t}))}}
 let drag=null;
 dock.addEventListener('pointerdown',e=>{dock.setPointerCapture(e.pointerId);const r=dock.getBoundingClientRect();drag={x0:e.clientX,left:r.left};press=1.08;dock.classList.add('drag');bs.set(rubber(e.clientX-r.left-bw/2))});
 dock.addEventListener('pointermove',e=>{if(drag)bs.set(rubber(e.clientX-drag.left-bw/2))});

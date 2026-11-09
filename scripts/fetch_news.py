@@ -380,5 +380,28 @@ def build():
     from collections import Counter
     print('stories', len(stories), Counter(s['topic'] for s in stories), 'breaking', len(out['breaking']), file=sys.stderr)
 
+LIVE = [('AJ', 'https://www.aljazeera.com/xml/rss/all.xml'), ('FJ', 'https://www.financialjuice.com/feed.ashx?xy=rss')]
+
+def live():
+    """Live tab: raw headline squawk (AJ has no CORS, so it is baked here; FJ is also polled client-side)."""
+    items = []
+    for src, url in LIVE:
+        try:
+            root = ET.fromstring(get(url))
+            for it in root.iter('item'):
+                t = html.unescape((it.findtext('title') or '').strip())
+                if src == 'FJ': t = re.sub(r'^FinancialJuice:\s*', '', t)
+                link = (it.findtext('link') or '').strip()
+                try: ts = int(parsedate_to_datetime(it.findtext('pubDate')).timestamp())
+                except Exception: continue
+                gid = (it.findtext('guid') or link).strip()
+                if t: items.append({'id': src.lower() + hashlib.md5(gid.encode()).hexdigest()[:10] if src == 'AJ' else 'fj' + gid, 's': src, 't': t, 'u': link, 'ts': ts})
+        except Exception as e:
+            print('live fail', src, e, file=sys.stderr)
+    items.sort(key=lambda x: -x['ts'])
+    json.dump({'generated': int(time.time()), 'items': items[:200]}, open(os.path.join(DATA, 'live.json'), 'w'), separators=(',', ':'), ensure_ascii=False)
+    print('live', len(items), file=sys.stderr)
+
 if __name__ == '__main__':
     build()
+    live()
